@@ -1,0 +1,13 @@
+{
+  "env": {
+    "mocha": true,
+    "es6": true 
+  },
+  "rules": {
+    "require-jsdoc": "off",
+    "max-len": "off",
+    "quote-props": "off",
+    "no-new": "off",
+    "valid-jsdoc": "off"
+  }
+}

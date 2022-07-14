@@ -1,0 +1,8 @@
+{
+    "env": {
+        "commonjs": true
+    },
+    "rules": {
+      "no-underscore-dangle": ["error", { "allow": ["__routes"] }]
+    }
+}

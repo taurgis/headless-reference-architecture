@@ -1,0 +1,17 @@
+{
+    "parserOptions": {
+        "sourceType": "module"
+    },
+  "env": {
+    "mocha": true,
+      "es6": true
+  },
+  "rules": {
+    "max-len": "off",
+    "no-use-before-define": "off",
+    "require-jsdoc": "off"
+  },
+    "globals": {
+        "browser": true
+    }
+}
