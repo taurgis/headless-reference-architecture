@@ -1,4 +1,4 @@
-# Headless Reference Architecture (SFRA)
+# Headless Reference Architecture (HRA)
 
 This is a repository for the Headless Reference Architecture reference application, based on the Storefront Reference Architecture.
 
@@ -27,7 +27,7 @@ The latest version of HRA is 0.1.0
 }
 ```
 
-4. Run `npm run uploadCartridge`. It will upload `app_api_base` and `modules` cartridges to the sandbox you specified in `dw.json` file.
+4. Run `npm run uploadCartridge`. It will upload `app_api_base`, `bm_app_api_base`, and `modules` cartridges to the sandbox you specified in `dw.json` file.
 
 5. Use https://github.com/SalesforceCommerceCloud/storefrontdata to zip and import site data on your sandbox.
 
