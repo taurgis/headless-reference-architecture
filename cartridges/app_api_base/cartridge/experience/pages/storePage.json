@@ -1,0 +1,41 @@
+{
+    "name":"Storefront Page",
+    "description":"A Storefront Page Type",
+    "region_definitions":[
+      {
+        "id":"headerbanner",
+        "name":"Header Banner Region",
+        "max_components": 1,
+        "component_type_exclusions": [
+          { "type_id": "commerce_assets.categorytile" },
+          { "type_id": "commerce_assets.category" },
+          { "type_id": "commerce_assets.editorialRichText" },
+          { "type_id": "commerce_assets.imageAndText" },
+          { "type_id": "commerce_assets.mainBanner" },
+          { "type_id": "commerce_assets.photoTile" },
+          { "type_id": "commerce_assets.popularCategory" },
+          { "type_id": "commerce_assets.productTile" },
+          { "type_id": "commerce_assets.shopTheLook" },
+          { "type_id": "commerce_layouts.carousel" },
+          { "type_id": "commerce_layouts.mobileGrid1r1c" },
+          { "type_id": "commerce_layouts.mobileGrid2r1c" },
+          { "type_id": "commerce_layouts.mobileGrid2r2c" },
+          { "type_id": "commerce_layouts.mobileGrid2r3c" },
+          { "type_id": "commerce_layouts.mobileGrid3r1c" },
+          { "type_id": "commerce_layouts.mobileGrid3r2c" },
+          { "type_id": "commerce_layouts.mobileGridLookBook" },
+          { "type_id": "commerce_layouts.popularCategories" },
+          { "type_id": "einstein.einsteinCarousel" },
+          { "type_id": "einstein.einsteinCarouselCategory" },
+          { "type_id": "einstein.einsteinCarouselProduct" }
+        ]
+      },
+      {
+        "id":"main",
+        "name":"Main Region",
+        "component_type_exclusions": [
+          { "type_id": "commerce_assets.campaignBanner" }
+        ]
+      }
+    ]
+}

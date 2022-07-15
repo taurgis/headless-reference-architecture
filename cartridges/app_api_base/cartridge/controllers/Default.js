@@ -15,7 +15,7 @@ var Resource = require('dw/web/Resource');
  * @memberof Default
  * @param {middleware} - cache.applyDefaultCache
  * @param {category} - non-sensitive
- * @param {renders} - isml
+ * @param {renders} - json
  * @param {serverfunction} - get
  */
 server.get('Start', cache.applyDefaultCache, function (req, res, next) {

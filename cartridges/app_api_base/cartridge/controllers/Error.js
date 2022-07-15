@@ -15,7 +15,7 @@ var Resource = require('dw/web/Resource');
  * @memberof Error
  * @param {httpparameter} - error - message to be displayed
  * @param {category} - non-sensitive
- * @param {renders} - isml
+ * @param {renders} - json
  * @param {serverfunction} - get/post
  */
 server.use('Start', function (req, res, next) {
@@ -38,7 +38,7 @@ server.use('Start', function (req, res, next) {
  * @memberof Error
  * @param {httpparameter} - err - e.g 01 (Error Code mapped in the resource file appended with 'message.error.')
  * @param {category} - non-sensitive
- * @param {renders} - isml
+ * @param {renders} - json
  * @param {serverfunction} - get/post
  */
 server.use('ErrorCode', function (req, res, next) {

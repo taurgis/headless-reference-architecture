@@ -28,7 +28,7 @@
     "build:isml": "./node_modules/.bin/isml-linter --build",
     "fix:isml": "./node_modules/.bin/isml-linter --autofix",
     "upload": "sgmf-scripts --upload",
-    "uploadCartridge": "sgmf-scripts --uploadCartridge app_api_base && sgmf-scripts --uploadCartridge modules",
+    "uploadCartridge": "sgmf-scripts --uploadCartridge app_api_base && sgmf-scripts --uploadCartridge bm_app_api_base && sgmf-scripts --uploadCartridge modules",
     "watch": "sgmf-scripts --watch",
     "release": "node bin/Makefile release --"
   },

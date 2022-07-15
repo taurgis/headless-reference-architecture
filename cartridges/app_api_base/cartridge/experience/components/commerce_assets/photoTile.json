@@ -1,0 +1,22 @@
+{
+  "name": "Image Tile",
+  "description": "Select a photo that you want to insert into your layout component",
+  "group": "commerce_assets",
+  "attribute_definition_groups": [
+    {
+      "id": "photoTileImage",
+      "name": "Image Tile",
+      "description": "This is a simple Image Tile component where you drag and drop it into any layout component ",
+      "attribute_definitions": [
+        {
+          "id": "image",
+          "name": "Image Tile Component Image",
+          "description": "Select a photo to be displayed",
+          "type": "image",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "region_definitions": []
+}

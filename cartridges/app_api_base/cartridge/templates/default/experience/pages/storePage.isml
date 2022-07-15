@@ -1,0 +1,10 @@
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+
+<div class="storepage" id="${pdict.page.ID}">
+    <div class="container">
+        <div class="row">
+            <isprint value="${pdict.regions.main.setClassName("col-12").render()}" encoding="off" />
+        </div>
+    </div>
+</div>
+
