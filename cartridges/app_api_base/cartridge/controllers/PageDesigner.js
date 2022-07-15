@@ -30,7 +30,7 @@ server.get('Serialize', cache.applyDefaultCache, function (req, res, next) {
             resultPage = PageMgr.getPageByCategory(category, true, req.querystring.aspectTypeId);
         } else if (req.querystring.productId && req.querystring.aspectTypeId) {
             var ProductMgr = require('dw/catalog/ProductMgr');
-            var product = ProductMgr.getCategory(req.querystring.productId);
+            var product = ProductMgr.getProduct(req.querystring.productId);
 
             resultPage = PageMgr.getPageByProduct(product, true, req.querystring.aspectTypeId);
         } else {
