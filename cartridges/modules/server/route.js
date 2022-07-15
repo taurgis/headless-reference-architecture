@@ -3,21 +3,6 @@
 var EventEmitter = require('./EventEmitter');
 
 /**
- * @param {Object} req - Request object
- * @returns {Object} object containing the querystring of the loaded page
- */
-function getPageMetadata(req) {
-    var pageMetadata = {};
-    var action = req.path.split('/');
-
-    pageMetadata.action = action[action.length - 1];
-    pageMetadata.queryString = req.querystring.toString();
-    pageMetadata.locale = req.locale.id;
-
-    return pageMetadata;
-}
-
-/**
  * @constructor
  * @param {string} name - Name of the route, corresponds to the second part of the URL
  * @param {Function[]} chain - List of functions to be executed
@@ -29,7 +14,6 @@ function Route(name, chain, req, res) {
     this.chain = chain;
     this.req = req;
     this.res = res;
-    res.setViewData(getPageMetadata(req));
     EventEmitter.call(this);
 }
 

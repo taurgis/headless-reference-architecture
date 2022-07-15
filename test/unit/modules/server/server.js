@@ -25,7 +25,7 @@ function request() {
         locale: {
             id: ''
         },
-        https: false,
+        https: true,
         currentCustomer: {
             raw: {},
             profile: {},
@@ -241,14 +241,14 @@ describe('server', function () {
     });
 
     it('should throw when middleware doesn\'t match route', function () {
-        server.post('test', middleware.https, function (req, res, next) {
+        server.post('test', middleware.get, function (req, res, next) {
             req.render('test', { name: 'value' }); next();
         });
         assert.throws(function () { server.exports().test(); });
     });
 
     it('should verify that whole route passes', function () {
-        server.get('test', middleware.http, function (req, res, next) {
+        server.get('test', middleware.get, function (req, res, next) {
             res.render('test', { name: 'value' });
             next();
         });
@@ -259,7 +259,7 @@ describe('server', function () {
     });
 
     it('should verify that all events are emitted', function (done) {
-        server.get('test', middleware.http, function (req, res, next) {
+        server.get('test', middleware.get, function (req, res, next) {
             res.json({ name: 'value' });
             next();
         });

@@ -8,11 +8,7 @@ var Route = require('../../../../cartridges/modules/server/route');
 
 var sinon = require('sinon');
 var assert = require('chai').assert;
-var mockReq = {
-    path: '',
-    querystring: {},
-    locale: ''
-};
+var mockReq = {};
 var mockRes = {
     setViewData: function () {}
 };

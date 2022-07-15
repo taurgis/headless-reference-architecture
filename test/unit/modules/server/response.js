@@ -26,10 +26,9 @@ describe('response', function () {
         assert.property(response.base, 'redirect');
     });
 
-    it('should correctly set view and viewData', function () {
+    it('should correctly set viewData', function () {
         var response = new Response(res);
-        response.render('test', { name: 'value' });
-        assert.equal(response.view, 'test');
+        response.render({ name: 'value' });
         assert.equal(response.viewData.name, 'value');
     });
 
@@ -37,36 +36,7 @@ describe('response', function () {
         var response = new Response(res);
         response.setViewData({ name: 'value' });
         response.setViewData({ foo: 'bar' });
-        response.render('test', { name: 'test' });
-        assert.equal(response.viewData.name, 'test');
-        assert.equal(response.viewData.foo, 'bar');
-    });
-
-    it('should correctly store a page rendering and set viewData', function () {
-        var response = new Response(res);
-        response.page('test', { name: 'value' });
-        assert.equal(response.viewData.name, 'value');
-        assert.equal(response.renderings.length, 1);
-        assert.deepEqual(response.renderings[0], {
-            type: 'render', subType: 'page', page: 'test', aspectAttributes: undefined
-        });
-    });
-
-    it('should correctly store a page rendering with aspectAttributes and set viewData', function () {
-        var response = new Response(res);
-        response.page('test', { name: 'value' }, { test: 'foo' });
-        assert.equal(response.viewData.name, 'value');
-        assert.equal(response.renderings.length, 1);
-        assert.deepEqual(response.renderings[0], {
-            type: 'render', subType: 'page', page: 'test', aspectAttributes: { test: 'foo' }
-        });
-    });
-
-    it('should extend viewData for page', function () {
-        var response = new Response(res);
-        response.setViewData({ name: 'value' });
-        response.setViewData({ foo: 'bar' });
-        response.page('page', { name: 'test' });
+        response.render({ name: 'test' });
         assert.equal(response.viewData.name, 'test');
         assert.equal(response.viewData.foo, 'bar');
     });
@@ -83,13 +53,6 @@ describe('response', function () {
         response.json({ name: 'value' });
         assert.isTrue(response.isJson);
         assert.equal(response.viewData.name, 'value');
-    });
-
-    it('should correctly set xml', function () {
-        var response = new Response(res);
-        response.xml('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>');
-        assert.isTrue(response.isXml);
-        assert.equal(response.viewData.xml, '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>');
     });
 
     it('should correctly set url', function () {

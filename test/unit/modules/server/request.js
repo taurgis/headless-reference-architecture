@@ -204,29 +204,6 @@ describe('request', function () {
         assert.equal(req.querystring.toString(), 'id=22&name=foo');
     });
 
-    it('should parse query string with variables', function () {
-        var req = new Request(createFakeRequest({
-            httpQueryString: 'dwvar_bar_size=32&dwvar_foo_color=1111'
-        }), createFakeRequest().customer, createFakeRequest().session);
-        assert.equal(req.querystring.variables.color.id, 'foo');
-        assert.equal(req.querystring.variables.color.value, '1111');
-        assert.equal(req.querystring.variables.size.id, 'bar');
-        assert.equal(req.querystring.variables.size.value, '32');
-        assert.notProperty(req.querystring, 'dwvar_foo_color');
-        assert.notProperty(req.querystring, 'dwvar_bar_size');
-        assert.equal(req.querystring.toString(), 'dwvar_bar_size=32&dwvar_foo_color=1111');
-    });
-
-    it('should parse query string with incorrectly formatted variables', function () {
-        var req = new Request(createFakeRequest({
-            httpQueryString: 'dwvar_color=1111&dwvar_size=32'
-        }), createFakeRequest().customer, createFakeRequest().session);
-        assert.equal(req.querystring.dwvar_color, '1111');
-        assert.equal(req.querystring.dwvar_size, '32');
-        assert.notProperty(req.querystring, 'variables');
-        assert.equal(req.querystring.toString(), 'dwvar_color=1111&dwvar_size=32');
-    });
-
     it('should contain correct geolocation object and properties', function () {
         var req = new Request(createFakeRequest(), createFakeRequest().customer, createFakeRequest().session);
         assert.equal(req.geolocation.countryCode, 'US');
@@ -407,31 +384,6 @@ describe('request', function () {
         assert.equal(expectedResult, 'value');
     });
 
-    it('should contain session clickStream', function () {
-        var req = new Request(createFakeRequest(), createFakeRequest().customer, createFakeRequest().session);
-        var expectedClick = {
-            host: 'clickObj.host',
-            locale: 'clickObj.locale',
-            path: 'clickObj.path',
-            pipelineName: 'clickObj-pipelineName',
-            queryString: 'clickObj.queryString',
-            referer: 'clickObj.referer',
-            remoteAddress: 'clickObj.remoteAddress',
-            timestamp: 'clickObj.timestamp',
-            url: 'clickObj.url',
-            userAgent: 'clickObj.userAgent'
-        };
-
-        var expectedResult = {
-            clicks: [expectedClick],
-            first: expectedClick,
-            last: expectedClick,
-            partial: false
-        };
-
-        assert.deepEqual(req.session.clickStream, expectedResult);
-    });
-
     it('should call setCurrency once', function () {
         new Request(createFakeRequest(), createFakeRequest().customer, createFakeRequest().session);
         assert.isTrue(setCurrencyStub.calledOnce);
@@ -483,33 +435,5 @@ describe('request', function () {
         fakeRequest.httpMethod = 'PUT';
         var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
         assert.equal(req.body, '');
-    });
-
-    it('should get pageMetaData title', function () {
-        var fakeRequest = createFakeRequest();
-        fakeRequest.pageMetaData.setTitle('TestTitle');
-        var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
-        assert.equal(req.pageMetaData.title, 'TestTitle');
-    });
-
-    it('should get pageMetaData description', function () {
-        var fakeRequest = createFakeRequest();
-        fakeRequest.pageMetaData.setDescription('TestDescription');
-        var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
-        assert.equal(req.pageMetaData.description, 'TestDescription');
-    });
-
-    it('should get pageMetaData keywords', function () {
-        var fakeRequest = createFakeRequest();
-        fakeRequest.pageMetaData.setKeywords('TestKeywords');
-        var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
-        assert.equal(req.pageMetaData.keywords, 'TestKeywords');
-    });
-
-    it('should get pageMetaData pageMetaTags', function () {
-        var fakeRequest = createFakeRequest();
-        fakeRequest.pageMetaData.addPageMetaTags([{ title: true, content: 'TestTitle' }]);
-        var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
-        assert.deepEqual(req.pageMetaData.pageMetaTags, [{ title: true, content: 'TestTitle' }]);
     });
 });

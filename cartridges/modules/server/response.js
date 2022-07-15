@@ -51,16 +51,15 @@ function appendRenderings(renderings, object) {
 
 Response.prototype = {
     /**
-     * Stores template name and data for rendering at the later time
-     * @param {string} name - Path to a template
+     * Stores data for rendering at the later time
      * @param {Object} data - Data to be passed to the template
      * @returns {void}
      */
-    render: function render(name, data) {
-        this.view = name;
+    render: function render(data) {
+        this.isJson = true;
         this.viewData = assign(this.viewData, data);
 
-        appendRenderings(this.renderings, { type: 'render', subType: 'isml', view: name });
+        appendRenderings(this.renderings, { type: 'render', subType: 'json' });
     },
     /**
      * Stores data to be rendered as json
@@ -72,28 +71,6 @@ Response.prototype = {
         this.viewData = assign(this.viewData, data);
 
         appendRenderings(this.renderings, { type: 'render', subType: 'json' });
-    },
-    /**
-     * Stores data to be rendered as XML
-     * @param {string} xmlString - The XML to print.
-     * @returns {void}
-     */
-    xml: function xml(xmlString) {
-        this.isXml = true;
-        this.viewData = assign(this.viewData, { xml: xmlString });
-
-        appendRenderings(this.renderings, { type: 'render', subType: 'xml' });
-    },
-    /**
-     * Stores data to be rendered as a page designer page
-     * @param {string} page - ID of the page to be rendered
-     * @param {Object} data - Data to be passed to the template
-     * @param {dw.util.HashMap} aspectAttributes - (optional) aspect attributes to be passed to the PageMgr
-     * @returns {void}
-     */
-    page: function (page, data, aspectAttributes) {
-        this.viewData = assign(this.viewData, data);
-        appendRenderings(this.renderings, { type: 'render', subType: 'page', page: page, aspectAttributes: aspectAttributes });
     },
     /**
      * Redirects to a given url right away

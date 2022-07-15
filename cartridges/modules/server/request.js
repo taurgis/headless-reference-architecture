@@ -23,32 +23,6 @@ function getSessionObject(session) {
         }
     };
 
-    Object.defineProperty(sessionObject, 'clickStream', {
-        get: function () {
-            var clickStreamEntries = session.clickStream.clicks.toArray();
-            var clicks = clickStreamEntries.map(function (clickObj) {
-                return {
-                    host: clickObj.host,
-                    locale: clickObj.locale,
-                    path: clickObj.path,
-                    pipelineName: clickObj.pipelineName,
-                    queryString: clickObj.queryString,
-                    referer: clickObj.referer,
-                    remoteAddress: clickObj.remoteAddress,
-                    timestamp: clickObj.timestamp,
-                    url: clickObj.url,
-                    userAgent: clickObj.userAgent
-                };
-            });
-            return {
-                clicks: clicks,
-                first: clicks[0],
-                last: clicks[clicks.length - 1],
-                partial: session.clickStream.partial
-            };
-        }
-    });
-
     return sessionObject;
 }
 
@@ -273,34 +247,6 @@ function getRequestBodyAsString(request) {
 }
 
 /**
- * Get a local instance of the pageMetaData object
- * @param {Object} pageMetaData - Global request pageMetaData object
- * @returns {Object} object containing pageMetaData information
- */
-function getPageMetaData(pageMetaData) {
-    var pageMetaDataObject = {
-        title: pageMetaData.title,
-        description: pageMetaData.description,
-        keywords: pageMetaData.keywords,
-        pageMetaTags: pageMetaData.pageMetaTags,
-        addPageMetaTags: function (pageMetaTags) {
-            pageMetaData.addPageMetaTags(pageMetaTags);
-        },
-        setTitle: function (title) {
-            pageMetaData.setTitle(title);
-        },
-        setDescription: function (description) {
-            pageMetaData.setDescription(description);
-        },
-        setKeywords: function (keywords) {
-            pageMetaData.setKeywords(keywords);
-        }
-    };
-
-    return pageMetaDataObject;
-}
-
-/**
  * @constructor
  * @classdesc Local instance of request object with customer object in it
  *
@@ -382,12 +328,6 @@ function Request(request, customer, session) {
     Object.defineProperty(this, 'referer', {
         get: function () {
             return request.getHttpReferer();
-        }
-    });
-
-    Object.defineProperty(this, 'pageMetaData', {
-        get: function () {
-            return getPageMetaData(request.pageMetaData);
         }
     });
 }
