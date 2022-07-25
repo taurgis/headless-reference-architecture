@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = function (array) {
     var items = [];
     if (array) {
@@ -17,6 +15,7 @@ module.exports = function (array) {
                 return i < items.length;
             },
             next: function () {
+                // eslint-disable-next-line no-plusplus
                 return items[i++];
             }
         };

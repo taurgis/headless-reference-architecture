@@ -1,5 +1,4 @@
-// Please check all available configurations and rules
-// at https://www.npmjs.com/package/isml-linter.
+'use strict';
 
 var config = {
     enableCache: true,

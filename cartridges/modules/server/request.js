@@ -177,6 +177,7 @@ function getCustomerObject(customer) {
         }
     };
     if (customer.addressBook.addresses && customer.addressBook.addresses.length > 0) {
+        // eslint-disable-next-line no-plusplus
         for (var i = 0, ii = customer.addressBook.addresses.length; i < ii; i++) {
             result.addressBook.addresses.push(getAddressObject(customer.addressBook.addresses[i]));
         }

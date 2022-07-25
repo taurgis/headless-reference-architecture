@@ -1,4 +1,3 @@
-
 function getCurrentBasket() {
     return {
         defaultShipment: {

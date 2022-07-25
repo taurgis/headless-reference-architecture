@@ -66,12 +66,14 @@ Route.prototype.getRoute = function () {
 
             if (i < me.chain.length) {
                 me.emit('route:Step', me.req, me.res);
+                // eslint-disable-next-line no-plusplus
                 me.chain[i++].call(me, me.req, me.res, next);
             } else {
                 me.done.call(me, me.req, me.res);
             }
         }
 
+        // eslint-disable-next-line no-plusplus
         i++;
         me.emit('route:Start', me.req, me.res);
         me.chain[0].call(me, me.req, me.res, next);

@@ -35,6 +35,7 @@ function appendRenderings(renderings, object) {
     var hasRendering = false;
 
     if (renderings.length) {
+        // eslint-disable-next-line no-plusplus
         for (var i = renderings.length - 1; i >= 0; i--) {
             if (renderings[i].type === 'render') {
                 renderings[i] = object; // eslint-disable-line no-param-reassign

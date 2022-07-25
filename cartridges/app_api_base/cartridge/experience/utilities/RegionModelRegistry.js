@@ -1,3 +1,4 @@
+'use strict';
 
 var RegionModel = require('*/cartridge/experience/utilities/RegionModel.js');
 

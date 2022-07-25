@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * is Page Designer page in Edit Mode
  */

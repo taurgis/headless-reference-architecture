@@ -34,7 +34,6 @@ describe('render', function () {
         response.viewData = { name: 'value' };
         render.applyRenderings(response);
 
-
         assert.isTrue(response.setContentType.calledWith('application/json'));
         assert.isTrue(response.base.writer.print.calledOnce);
     });

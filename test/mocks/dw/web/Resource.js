@@ -1,5 +1,3 @@
-'use strict';
-
 var path = require('path');
 var properties = require('properties-parser');
 const locale = 'x_default';

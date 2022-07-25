@@ -1,5 +1,3 @@
-'use strict';
-
 var storeMgr = {
     searchStoresByPostalCode: function () {
         return {
@@ -52,7 +50,6 @@ var storeMgr = {
     }
 
 };
-
 
 module.exports = {
     searchStoresByPostalCode: storeMgr.searchStoresByPostalCode,

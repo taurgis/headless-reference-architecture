@@ -1,5 +1,3 @@
-'use strict';
-
 function Money(isAvailable) {
     return {
         available: isAvailable,

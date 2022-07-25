@@ -1,5 +1,3 @@
-'use strict';
-
 function map() {
     var args = Array.from(arguments);
     var list = args[0];

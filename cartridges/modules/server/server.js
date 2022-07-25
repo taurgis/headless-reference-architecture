@@ -1,5 +1,3 @@
-/* globals request:false, response:false, customer:false, session:false */
-
 'use strict';
 
 var HookMgr = require('dw/system/HookMgr');
@@ -54,7 +52,9 @@ Server.prototype = {
         var rq = new Request(
             typeof request !== 'undefined' ? request : {},
             typeof customer !== 'undefined' ? customer : {},
-            typeof session !== 'undefined' ? session : {});
+            typeof session !== 'undefined' ? session : {}
+        );
+
         checkParams(args[0], middlewareChain);
 
         var rs = new Response(typeof response !== 'undefined' ? response : {});

@@ -1,5 +1,4 @@
 'use strict';
-/* global response */
 
 var Template = require('dw/util/Template');
 var HashMap = require('dw/util/HashMap');

@@ -53,4 +53,3 @@ describe('userLoggedInMiddleware', function () {
         assert.isTrue(next.calledOnce);
     });
 });
-

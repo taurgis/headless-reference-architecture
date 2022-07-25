@@ -13,6 +13,11 @@
         "max-len": "off"
     },
     "globals": {
-        "empty": true
+        "empty": true,
+        "request": true,
+        "response": true,
+        "dw": true,
+        "customer": true,
+        "session": true
     }
 }

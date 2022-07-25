@@ -1,3 +1,5 @@
+'use strict';
+
 var RegionRenderSettings = require('dw/experience/RegionRenderSettings');
 var ComponentRenderSettings = require('dw/experience/ComponentRenderSettings');
 var PageMgr = require('dw/experience/PageMgr');
