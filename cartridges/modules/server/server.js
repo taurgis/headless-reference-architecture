@@ -7,6 +7,8 @@ var Response = require('./response');
 var Route = require('./route');
 var render = require('./render');
 
+var perfStartTime = Date.now();
+
 //--------------------------------------------------
 // Private helpers
 //--------------------------------------------------
@@ -93,6 +95,8 @@ Server.prototype = {
                 return;
             }
 
+            res.viewData.server_processing_time = Date.now() - perfStartTime;
+            res.viewData.server_processing_time_unit = 'ms';
             render.applyRenderings(res);
         });
 
