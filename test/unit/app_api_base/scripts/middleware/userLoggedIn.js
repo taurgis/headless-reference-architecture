@@ -31,9 +31,9 @@ describe('userLoggedInMiddleware', function () {
     };
 
     afterEach(function () {
-        next.reset();
-        res.json.reset();
-        res.setStatusCode.reset();
+        next.resetHistory();
+        res.json.resetHistory();
+        res.setStatusCode.resetHistory();
         req.querystring = {};
     });
 

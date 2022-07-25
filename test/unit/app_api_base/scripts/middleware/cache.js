@@ -20,7 +20,7 @@ describe('middleware', function () {
     });
 
     afterEach(function () {
-        next.reset();
+        next.resetHistory();
     });
 
     it('Should set the page cache value to 24 hours', function () {

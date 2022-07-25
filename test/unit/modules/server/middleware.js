@@ -14,7 +14,7 @@ describe('middleware', function () {
     });
 
     afterEach(function () {
-        next.reset();
+        next.resetHistory();
     });
 
     it('should call next for get method', function () {

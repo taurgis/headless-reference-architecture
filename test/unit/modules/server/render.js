@@ -23,8 +23,8 @@ describe('render', function () {
     });
 
     afterEach(function () {
-        response.base.writer.print.reset();
-        response.setContentType.reset();
+        response.base.writer.print.resetHistory();
+        response.setContentType.resetHistory();
         response.viewData = {};
         response.renderings = [];
     });
