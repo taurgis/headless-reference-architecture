@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <type-extension type-id="SitePreferences">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="ocapiSessionBridgeURI">
+                <display-name xml:lang="x-default">SFCC OCAPI Session Bridge URI</display-name>
+                <description xml:lang="x-default">Request URI used for OCAPI Session</description>
+                <type>string</type>
+                <mandatory-flag>true</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="clientIPHeaderName">
+                <display-name xml:lang="x-default">Client IP Header Name</display-name>
+                <description xml:lang="x-default">The header name used to passthrough the client IP. This must match the Client IP Header Name set in Customer CDN settings in Business Manager.</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <default-value>x-client-ip</default-value>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="HRA">
+                <display-name xml:lang="x-default">HRA Configurations</display-name>
+                <attribute attribute-id="ocapiSessionBridgeURI"/>
+                <attribute attribute-id="clientIPHeaderName"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+</metadata>

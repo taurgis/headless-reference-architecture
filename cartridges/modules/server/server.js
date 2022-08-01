@@ -97,6 +97,7 @@ Server.prototype = {
 
             res.viewData.server_processing_time = Date.now() - perfStartTime;
             res.viewData.server_processing_time_unit = 'ms';
+
             render.applyRenderings(res);
         });
 
