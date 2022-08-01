@@ -1,5 +1,6 @@
 function Response() {
     this.base = {};
+    this.viewData = {};
 }
 
 Response.prototype = {
