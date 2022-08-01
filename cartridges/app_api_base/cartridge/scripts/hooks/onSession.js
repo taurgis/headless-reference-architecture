@@ -94,9 +94,9 @@ exports.onSession = function () {
                 'Session bridge successfully completed!'
             );
 
-            var redirectParameter = (request.httpQueryString ? '&' : '?') + 'sb_redirect=true';
+            var redirectParameter = (request.httpQueryString ? '&' : '') + 'sb_redirect=true';
 
-            response.redirect(getSEOUrl(request.httpPath, request.httpQueryString + redirectParameter));
+            response.redirect(getSEOUrl(request.httpPath, (request.httpQueryString || '') + redirectParameter));
         }
     } else {
         Logger.debug(
