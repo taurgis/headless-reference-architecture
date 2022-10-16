@@ -23,6 +23,7 @@ server.get('Start', cache.applyDefaultCache, function (req, res, next) {
         site: Resource.msg('global.site.name', 'version', null),
         version: Resource.msg('global.version.number', 'version', null)
     });
+
     next();
 });
 
@@ -32,6 +33,7 @@ server.get('Offline', cache.applyDefaultCache, function (req, res, next) {
         error: Resource.msg('global.error.general', 'error', null),
         message: Resource.msg('global.error.offline', 'error', null)
     });
+
     next();
 });
 

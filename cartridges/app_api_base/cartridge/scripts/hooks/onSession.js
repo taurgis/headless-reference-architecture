@@ -69,7 +69,7 @@ exports.onSession = function () {
     var bearerToken = request.httpHeaders.authorization ? request.httpHeaders.authorization.replace('Bearer ', '') : null;
     var isRedirect = request.httpParameters.sb_redirect;
 
-    // For now this method only works for GET calls.
+    // For now this method only works for GET calls as a redirect is involved.
     var isGET = request.httpMethod === 'GET';
 
     if (isStorefrontSession

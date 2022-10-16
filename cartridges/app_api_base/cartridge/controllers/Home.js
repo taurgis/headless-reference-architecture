@@ -26,15 +26,18 @@ server.get('Show', cache.applyDefaultCache, function (req, res, next) {
         site: Resource.msg('global.site.name', 'version', null),
         version: Resource.msg('global.version.number', 'version', null)
     });
+
     next();
 });
 
 server.get('ErrorNotFound', function (req, res, next) {
     res.setStatusCode(404);
+
     res.json({
         error: Resource.msg('global.error.general', 'error', null),
         message: Resource.msg('global.error.notfound', 'error', null)
     });
+
     next();
 });
 

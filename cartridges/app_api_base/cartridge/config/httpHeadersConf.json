@@ -1,5 +1,9 @@
 [
     {
+        "id": "Access-Control-Allow-Methods",
+        "value": "POST, GET, OPTIONS"
+    },
+    {
         "id": "Content-Security-Policy",
         "value": "frame-ancestors 'self'"
     },

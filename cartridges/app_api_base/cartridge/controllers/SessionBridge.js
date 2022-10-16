@@ -17,6 +17,7 @@ var server = require('server');
  */
 server.get('Test', function (req, res, next) {
     var System = require('dw/system/System');
+
     if ((System.getInstanceType() !== System.PRODUCTION_SYSTEM)
         && (System.getInstanceType() !== System.STAGING_SYSTEM)) {
         res.json({

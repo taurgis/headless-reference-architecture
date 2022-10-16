@@ -62,6 +62,7 @@ server.get('Hostname', function (req, res, next) {
     }
 
     res.redirect(location);
+
     next();
 });
 

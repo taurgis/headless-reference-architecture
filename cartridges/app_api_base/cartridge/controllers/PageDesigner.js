@@ -6,7 +6,6 @@
 
 var server = require('server');
 var cache = require('*/cartridge/scripts/middleware/cache');
-var Resource = require('dw/web/Resource');
 
 /**
  * PageDesigner-Serialize : This endpoint can be used to get the serialized version of a Single Page Designer Page
@@ -20,6 +19,8 @@ var Resource = require('dw/web/Resource');
  */
 server.get('Serialize', cache.applyDefaultCache, function (req, res, next) {
     var PageMgr = require('dw/experience/PageMgr');
+    var Resource = require('dw/web/Resource');
+
     var resultPage = null;
 
     if (req.querystring && req.querystring.pageId) {
@@ -42,6 +43,7 @@ server.get('Serialize', cache.applyDefaultCache, function (req, res, next) {
         res.print(PageMgr.serializePage(resultPage.ID, null));
     } else {
         res.setStatusCode(404);
+
         res.json({
             error: Resource.msg('global.error.general', 'error', null),
             message: Resource.msg('error.unknownpage', 'pagedesigner', null),
