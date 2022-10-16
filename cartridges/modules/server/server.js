@@ -95,8 +95,16 @@ Server.prototype = {
                 return;
             }
 
-            res.viewData.server_processing_time = Date.now() - perfStartTime;
-            res.viewData.server_processing_time_unit = 'ms';
+            // If the response is cached, performance metrics are meaningless
+            if (!res.cachePeriod) {
+                res.viewData.server_processing_time = Date.now() - perfStartTime;
+                res.viewData.server_processing_time_unit = 'ms';
+                res.viewData.server_processing_cached = false;
+            } else {
+                res.viewData.server_processing_time = 0;
+                res.viewData.server_processing_time_unit = 'ms';
+                res.viewData.server_processing_cached = true;
+            }
 
             render.applyRenderings(res);
         });
