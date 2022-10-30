@@ -130,6 +130,28 @@ Server.prototype = {
         return this.use.apply(this, args);
     },
     /**
+     * Shortcut to "use" method that adds a check for put request
+     * @param {string} name - Name of the route
+     * @param {Function[]} arguments - List of functions to be executed
+     * @returns {void}
+     */
+    put: function put() {
+        var args = Array.prototype.slice.call(arguments);
+        args.splice(1, 0, middleware.put);
+        return this.use.apply(this, args);
+    },
+    /**
+     * Shortcut to "use" method that adds a check for patch request
+     * @param {string} name - Name of the route
+     * @param {Function[]} arguments - List of functions to be executed
+     * @returns {void}
+     */
+    patch: function patch() {
+        var args = Array.prototype.slice.call(arguments);
+        args.splice(1, 0, middleware.patch);
+        return this.use.apply(this, args);
+    },
+    /**
      * Shortcut to "use" method that adds a check for post request
      * @param {string} name - Name of the route
      * @param {Function[]} arguments - List of functions to be executed
@@ -138,6 +160,20 @@ Server.prototype = {
     post: function post() {
         var args = Array.prototype.slice.call(arguments);
         args.splice(1, 0, middleware.post);
+        return this.use.apply(this, args);
+    },
+    /**
+     * Shortcut to "use" method that adds a check for delete request
+     *
+     * Note: delete is a reserved keyword.
+     *
+     * @param {string} name - Name of the route
+     * @param {Function[]} arguments - List of functions to be executed
+     * @returns {void}
+     */
+    delete: function doDelete() {
+        var args = Array.prototype.slice.call(arguments);
+        args.splice(1, 0, middleware.delete);
         return this.use.apply(this, args);
     },
     /**

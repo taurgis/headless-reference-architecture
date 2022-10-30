@@ -436,4 +436,18 @@ describe('request', function () {
         var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
         assert.equal(req.body, '');
     });
+
+    it('should get body as string for a PATCH request', function () {
+        var fakeRequest = createFakeRequest();
+        fakeRequest.httpMethod = 'PATCH';
+        var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
+        assert.equal(req.body, '');
+    });
+
+    it('should not get body as string for a DELETE request', function () {
+        var fakeRequest = createFakeRequest();
+        fakeRequest.httpMethod = 'DELETE';
+        var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
+        assert.equal(req.body, null);
+    });
 });

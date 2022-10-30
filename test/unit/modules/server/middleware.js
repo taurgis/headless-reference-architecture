@@ -29,6 +29,30 @@ describe('middleware', function () {
         assert.instanceOf(next.firstCall.args[0], Error);
     });
 
+    it('should call next for put method', function () {
+        req.httpMethod = 'PUT';
+        middleware.put(req, null, next);
+        assert.isTrue(next.calledOnce);
+    });
+
+    it('should call next with error for put method', function () {
+        req.httpMethod = 'POST';
+        middleware.put(req, null, next);
+        assert.instanceOf(next.firstCall.args[0], Error);
+    });
+
+    it('should call next for patch method', function () {
+        req.httpMethod = 'PATCH';
+        middleware.put(req, null, next);
+        assert.isTrue(next.calledOnce);
+    });
+
+    it('should call next with error for patch method', function () {
+        req.httpMethod = 'PATCH';
+        middleware.put(req, null, next);
+        assert.instanceOf(next.firstCall.args[0], Error);
+    });
+
     it('should call next for post method', function () {
         req.httpMethod = 'POST';
         middleware.post(req, null, next);
@@ -38,6 +62,18 @@ describe('middleware', function () {
     it('should call next with error for post method', function () {
         req.httpMethod = 'DELETE';
         middleware.get(req, null, next);
+        assert.instanceOf(next.firstCall.args[0], Error);
+    });
+
+    it('should call next for delete method', function () {
+        req.httpMethod = 'DELETE';
+        middleware.delete(req, null, next);
+        assert.isTrue(next.calledOnce);
+    });
+
+    it('should call next with error for delete method', function () {
+        req.httpMethod = 'DELETE';
+        middleware.put(req, null, next);
         assert.instanceOf(next.firstCall.args[0], Error);
     });
 });

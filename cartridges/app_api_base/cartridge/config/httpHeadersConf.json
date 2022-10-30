@@ -1,7 +1,7 @@
 [
     {
         "id": "Access-Control-Allow-Methods",
-        "value": "POST, GET, OPTIONS"
+        "value": "POST, GET, PUT, DELETE, OPTIONS"
     },
     {
         "id": "Content-Security-Policy",

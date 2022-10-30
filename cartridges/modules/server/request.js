@@ -238,7 +238,7 @@ function getRequestBodyAsString(request) {
     var result = null;
 
     if (request
-        && (request.httpMethod === 'POST' || request.httpMethod === 'PUT')
+        && (request.httpMethod === 'POST' || request.httpMethod === 'PUT' || request.httpMethod === 'PATCH')
         && request.httpParameterMap
     ) {
         result = request.httpParameterMap.requestBodyAsString;
