@@ -154,14 +154,14 @@ describe('server', function () {
     });
 
     it('should create a server with a route of two steps', function () {
-        server.get('test', function () {});
+        server.delete('test', function () {});
         var exports = server.exports();
         assert.equal(exports.__routes.test.chain.length, 2);
     });
 
     it('should create a server with two routes', function () {
         server.get('test', function () {}, function () {});
-        server.post('test2', function () {});
+        server.patch('test2', function () {});
         var exports = server.exports();
         assert.equal(typeof exports.test, 'function');
         assert.equal(typeof exports.test2, 'function');
@@ -243,7 +243,7 @@ describe('server', function () {
     });
 
     it('should throw when middleware doesn\'t match route', function () {
-        server.post('test', middleware.get, function (req, res, next) {
+        server.put('test', middleware.get, function (req, res, next) {
             req.render('test', { name: 'value' }); next();
         });
         assert.throws(function () { server.exports().test(); });

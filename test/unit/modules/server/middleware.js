@@ -43,13 +43,13 @@ describe('middleware', function () {
 
     it('should call next for patch method', function () {
         req.httpMethod = 'PATCH';
-        middleware.put(req, null, next);
+        middleware.patch(req, null, next);
         assert.isTrue(next.calledOnce);
     });
 
     it('should call next with error for patch method', function () {
-        req.httpMethod = 'PATCH';
-        middleware.put(req, null, next);
+        req.httpMethod = 'GET';
+        middleware.patch(req, null, next);
         assert.instanceOf(next.firstCall.args[0], Error);
     });
 
@@ -60,8 +60,8 @@ describe('middleware', function () {
     });
 
     it('should call next with error for post method', function () {
-        req.httpMethod = 'DELETE';
-        middleware.get(req, null, next);
+        req.httpMethod = 'PATCH';
+        middleware.post(req, null, next);
         assert.instanceOf(next.firstCall.args[0], Error);
     });
 
@@ -72,8 +72,8 @@ describe('middleware', function () {
     });
 
     it('should call next with error for delete method', function () {
-        req.httpMethod = 'DELETE';
-        middleware.put(req, null, next);
+        req.httpMethod = 'GET';
+        middleware.delete(req, null, next);
         assert.instanceOf(next.firstCall.args[0], Error);
     });
 });
