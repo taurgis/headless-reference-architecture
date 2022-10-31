@@ -47,7 +47,7 @@ Performance.prototype.stopScriptPerformanceTimer = function (res) {
 
 /**
  * Function to start the timer for script performance of a specific step in the route.
- * @param {string} position - Position of a step in the route
+ * @param {int} position - Position of a step in the route
  */
 Performance.prototype.startRoutePerformanceTimer = function (position) {
     this.route[position] = {
@@ -58,7 +58,7 @@ Performance.prototype.startRoutePerformanceTimer = function (position) {
 
 /**
  * Function to stop the timer for script performance of a specific step in the route.
- * @param {string} position - Position of a step in the route
+ * @param {int} position - Position of a step in the route
  * @param {Object} res - Response object
  */
 Performance.prototype.stopRoutePerformanceTimer = function (position, res) {

@@ -171,4 +171,60 @@ describe('performanceMetrics', function () {
             assert.equal(performanceMetrics.renderPerformance, 0);
         });
     });
+
+    describe('setServerTimingResponseHeader', function () {
+        it('should set the header on the response', function () {
+            var headerResult = '';
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.setServerTimingResponseHeader({
+                setHttpHeader: (key, value) => {
+                    headerResult = value;
+                }
+            });
+
+            assert.equal(headerResult, 'script;dur=0, render;dur=0');
+        });
+
+        it('should set the header on the response containing route information', function () {
+            var headerResult = '';
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.startRoutePerformanceTimer(1);
+            performanceMetrics.stopRoutePerformanceTimer(1, {
+                cachePeriod: null
+            });
+
+            performanceMetrics.setServerTimingResponseHeader({
+                setHttpHeader: (key, value) => {
+                    headerResult = value;
+                }
+            });
+
+            assert.equal(headerResult, 'script;dur=0, Route-Step-1;dur=0, render;dur=0');
+        });
+
+        it('should set the header on the response containing route information that has multiple steps', function () {
+            var headerResult = '';
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.startRoutePerformanceTimer(1);
+            performanceMetrics.stopRoutePerformanceTimer(1, {
+                cachePeriod: null
+            });
+
+            performanceMetrics.startRoutePerformanceTimer(2);
+            performanceMetrics.stopRoutePerformanceTimer(2, {
+                cachePeriod: null
+            });
+
+            performanceMetrics.setServerTimingResponseHeader({
+                setHttpHeader: (key, value) => {
+                    headerResult = value;
+                }
+            });
+
+            assert.equal(headerResult, 'script;dur=0, Route-Step-1;dur=0, Route-Step-2;dur=0, render;dur=0');
+        });
+    });
 });
