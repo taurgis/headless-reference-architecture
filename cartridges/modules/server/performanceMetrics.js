@@ -9,9 +9,14 @@ var instance = null;
  * @classdesc Creates a singleton Performance Metrics object
  */
 var Performance = function () {
+    this.scriptPerfStartTime = scriptPerfStartTime;
     this.scriptPerformance = 0;
     this.renderPerformance = 0;
     this.route = {};
+};
+
+Performance.reset = function () {
+    instance = new Performance();
 };
 
 /**
@@ -35,7 +40,7 @@ Performance.prototype.stopScriptPerformanceTimer = function (res) {
 
 Performance.prototype.startRoutePerformanceTimer = function (position) {
     this.route[position] = {
-        start: new Date(),
+        start: Date.now(),
         duration: 0
     };
 };
