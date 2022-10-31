@@ -9,7 +9,8 @@ Response.prototype = {
     redirect: function redirect(url) {
         this.redirectUrl = url;
     },
-    setViewData: function () {}
+    setViewData: function () {},
+    setHttpHeader: function () {}
 };
 
 module.exports = Response;

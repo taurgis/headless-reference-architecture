@@ -1,6 +1,10 @@
 'use strict';
 
 var EventEmitter = require('./EventEmitter');
+var PerformanceMetrics = require('./performanceMetrics');
+
+// Initiate the Performance Metrics
+var performanceMetrics = PerformanceMetrics.getInstance();
 
 /**
  * @constructor
@@ -65,10 +69,18 @@ Route.prototype.getRoute = function () {
             }
 
             if (i < me.chain.length) {
+                if (i > 0) {
+                    performanceMetrics.stopRoutePerformanceTimer(i - 1, me.res);
+                }
+
+                performanceMetrics.startRoutePerformanceTimer(i);
+
                 me.emit('route:Step', me.req, me.res);
+
                 // eslint-disable-next-line no-plusplus
                 me.chain[i++].call(me, me.req, me.res, next);
             } else {
+                performanceMetrics.stopRoutePerformanceTimer(i - 1, me.res);
                 me.done.call(me, me.req, me.res);
             }
         }
