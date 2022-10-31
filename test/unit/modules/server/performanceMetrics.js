@@ -173,6 +173,19 @@ describe('performanceMetrics', function () {
     });
 
     describe('setServerTimingResponseHeader', function () {
+        it('should use the correct header name', function () {
+            var headerResult = '';
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.setServerTimingResponseHeader({
+                setHttpHeader: (key) => {
+                    headerResult = key;
+                }
+            });
+
+            assert.equal(headerResult, 'X-SF-CC-Server-Timing');
+        });
+
         it('should set the header on the response', function () {
             var headerResult = '';
             var performanceMetrics = PerformanceMetrics.getInstance();
