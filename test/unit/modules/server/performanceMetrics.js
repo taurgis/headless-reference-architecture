@@ -90,6 +90,46 @@ describe('performanceMetrics', function () {
         });
     });
 
+    describe('stopRoutePerformanceTimer', function () {
+        beforeEach(function () {
+            PerformanceMetrics.getInstance().startRoutePerformanceTimer(1);
+        });
+
+        it('should set the route step performance in MS', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            assert.equal(performanceMetrics.route[1].duration, 0);
+
+            for (var i = 0; i < 50000; i += 1) { /* Do nothing */ }
+
+            performanceMetrics.stopRoutePerformanceTimer(1, {
+                cachePeriod: null
+            });
+
+            assert.notEqual(performanceMetrics.route[1].duration, 0);
+        });
+
+        it('should set the route step performance to 0 if the response is configured to be cached', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            assert.equal(performanceMetrics.route[1].duration, 0);
+
+            performanceMetrics.stopRoutePerformanceTimer(1, {
+                cachePeriod: 5
+            });
+
+            assert.equal(performanceMetrics.route[1].duration, 0);
+        });
+
+        it('should not crash if a step that does not excist is passed', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.stopRoutePerformanceTimer(10, {
+                cachePeriod: 5
+            });
+        });
+    });
+
     describe('startRenderPerformanceTimer', function () {
         it('should set the start time', function () {
             var performanceMetrics = PerformanceMetrics.getInstance();
