@@ -15,6 +15,9 @@ var Performance = function () {
     this.route = {};
 };
 
+/**
+ * Reset the singleton instance of the Performance Metrics object.
+ */
 Performance.reset = function () {
     instance = new Performance();
 };
@@ -32,12 +35,20 @@ Performance.getInstance = function () {
     return instance;
 };
 
+/**
+ * Function to stop the timer for total script performance. (The entire route)
+ * @param {Object} res - Response object
+ */
 Performance.prototype.stopScriptPerformanceTimer = function (res) {
     if (!res.cachePeriod) {
         this.scriptPerformance = Date.now() - scriptPerfStartTime;
     }
 };
 
+/**
+ * Function to start the timer for script performance of a specific step in the route.
+ * @param {string} position - Position of a step in the route
+ */
 Performance.prototype.startRoutePerformanceTimer = function (position) {
     this.route[position] = {
         start: Date.now(),
@@ -45,22 +56,38 @@ Performance.prototype.startRoutePerformanceTimer = function (position) {
     };
 };
 
+/**
+ * Function to stop the timer for script performance of a specific step in the route.
+ * @param {string} position - Position of a step in the route
+ * @param {Object} res - Response object
+ */
 Performance.prototype.stopRoutePerformanceTimer = function (position, res) {
     if (this.route[position] && !res.cachePeriod) {
         this.route[position].duration = Date.now() - this.route[position].start;
     }
 };
 
+/**
+ * Function to start the timer for rendering (JSON/XML) performance.
+ */
 Performance.prototype.startRenderPerformanceTimer = function () {
     this.renderPerfStartTime = Date.now();
 };
 
+/**
+ * Function to stop the timer for rendering (JSON/XML) performance.
+ * @param {Object} res - Response object
+ */
 Performance.prototype.stopRenderPerformanceTimer = function (res) {
     if (!res.cachePeriod) {
         this.renderPerformance = Date.now() - this.renderPerfStartTime;
     }
 };
 
+/**
+ * Function to set the "Server-Timing" header on the current response.
+ * @param {Object} res - Response object
+ */
 Performance.prototype.setServerTimingResponseHeader = function (res) {
     var route = this.route;
     var routeMetrics = '';
