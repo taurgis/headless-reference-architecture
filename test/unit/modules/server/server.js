@@ -56,6 +56,7 @@ describe('server', function () {
         };
         response.viewData = { };
         response.renderings = [{ type: 'render', subType: 'json' }]; // eslint-disable-line no-param-reassign
+        response.setHttpHeader = function () {}; // eslint-disable-line no-param-reassign
         return response;
     };
 

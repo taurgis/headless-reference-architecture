@@ -1,13 +1,16 @@
 'use strict';
 
+var PerformanceMetrics = require('./performanceMetrics');
+
+// Initiate the Performance Metrics
+var performanceMetrics = PerformanceMetrics.getInstance();
+
 var HookMgr = require('dw/system/HookMgr');
 var middleware = require('./middleware');
 var Request = require('./request');
 var Response = require('./response');
 var Route = require('./route');
 var render = require('./render');
-
-var perfStartTime = Date.now();
 
 //--------------------------------------------------
 // Private helpers
@@ -78,7 +81,12 @@ Server.prototype = {
                     currentTime.setHours(currentTime.getHours() + res.cachePeriod);
                 }
                 res.base.setExpires(currentTime);
+
+                res.setHttpHeader('X-SF-CC-WebAdapter-Cache', 'true,personalized=' + res.personalized + ',expires=' + currentTime.getTime());
+            } else {
+                res.setHttpHeader('X-SF-CC-WebAdapter-Cache', 'false');
             }
+
             // add vary by
             if (res.personalized) {
                 res.base.setVaryBy('price_promotion');
@@ -95,18 +103,13 @@ Server.prototype = {
                 return;
             }
 
-            // If the response is cached, performance metrics are meaningless
-            if (!res.cachePeriod) {
-                res.viewData.server_processing_time = Date.now() - perfStartTime;
-                res.viewData.server_processing_time_unit = 'ms';
-                res.viewData.server_processing_cached = false;
-            } else {
-                res.viewData.server_processing_time = 0;
-                res.viewData.server_processing_time_unit = 'ms';
-                res.viewData.server_processing_cached = true;
-            }
+            performanceMetrics.stopScriptPerformanceTimer(res);
+            performanceMetrics.startRenderPerformanceTimer();
 
             render.applyRenderings(res);
+
+            performanceMetrics.stopRenderPerformanceTimer(res);
+            performanceMetrics.setServerTimingResponseHeader(res);
         });
 
         this.routes[name] = route;
