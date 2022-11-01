@@ -3,6 +3,7 @@ coverage/
 npm-debug.log
 cartridges.zip
 .idea/
+.nyc_output
 dw.json
 sitegenesisdata/
 mobilefirstdata/

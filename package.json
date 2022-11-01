@@ -7,8 +7,8 @@
     "node": ">=4.0"
   },
   "scripts": {
-    "test": "sgmf-scripts --test test/unit/**/*.js",
-    "cover": "sgmf-scripts --cover 'test/unit'",
+    "test": "nyc mocha test/unit/**/*.js",
+    "test:report": "nyc report --reporter=json",
     "test:integration": "sgmf-scripts --integration 'test/integration/**/*.js'",
     "bdd:snippets": "./node_modules/.bin/codeceptjs bdd:snippets --path",
     "lint": "npm run lint:js",
@@ -45,10 +45,10 @@
     "globalize": "1.7.0",
     "husky": "8.0.1",
     "isml-linter": "5.40.3",
-    "istanbul": "0.4.5",
     "lodash": "4.17.21",
     "mocha": "10.1.0",
     "mocha-junit-reporter": "2.1.0",
+    "nyc": "15.1.0",
     "properties-parser": "0.3.1",
     "proxyquire": "2.1.3",
     "request-promise": "4.2.6",
@@ -57,7 +57,6 @@
     "should": "13.2.3",
     "sinon": "14.0.1"
   },
-  "dependencies": {},
   "browserslist": [
     "last 2 versions",
     "ie >= 10"
