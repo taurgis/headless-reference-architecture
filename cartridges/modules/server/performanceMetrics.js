@@ -1,5 +1,7 @@
 'use strict';
 
+var performanceMetricsConfig = require('*/cartridge/config/performanceMetricsConf');
+
 // Start the timer here when the script is firt parsed through the require.
 var scriptPerfStartTime = Date.now();
 var instance = null;
@@ -40,6 +42,10 @@ Performance.getInstance = function () {
  * @param {Object} res - Response object
  */
 Performance.prototype.stopScriptPerformanceTimer = function (res) {
+    if (!performanceMetricsConfig.enabled) {
+        return;
+    }
+
     if (!res.cachePeriod) {
         this.scriptPerformance = Date.now() - scriptPerfStartTime;
     }
@@ -50,6 +56,10 @@ Performance.prototype.stopScriptPerformanceTimer = function (res) {
  * @param {int} position - Position of a step in the route
  */
 Performance.prototype.startRoutePerformanceTimer = function (position) {
+    if (!performanceMetricsConfig.enabled) {
+        return;
+    }
+
     this.route[position] = {
         start: Date.now(),
         duration: 0
@@ -62,6 +72,10 @@ Performance.prototype.startRoutePerformanceTimer = function (position) {
  * @param {Object} res - Response object
  */
 Performance.prototype.stopRoutePerformanceTimer = function (position, res) {
+    if (!performanceMetricsConfig.enabled) {
+        return;
+    }
+
     if (this.route[position] && !res.cachePeriod) {
         this.route[position].duration = Date.now() - this.route[position].start;
     }
@@ -71,6 +85,10 @@ Performance.prototype.stopRoutePerformanceTimer = function (position, res) {
  * Function to start the timer for rendering (JSON/XML) performance.
  */
 Performance.prototype.startRenderPerformanceTimer = function () {
+    if (!performanceMetricsConfig.enabled) {
+        return;
+    }
+
     this.renderPerfStartTime = Date.now();
 };
 
@@ -79,6 +97,10 @@ Performance.prototype.startRenderPerformanceTimer = function () {
  * @param {Object} res - Response object
  */
 Performance.prototype.stopRenderPerformanceTimer = function (res) {
+    if (!performanceMetricsConfig.enabled) {
+        return;
+    }
+
     if (!res.cachePeriod) {
         this.renderPerformance = Date.now() - this.renderPerfStartTime;
     }
@@ -89,6 +111,10 @@ Performance.prototype.stopRenderPerformanceTimer = function (res) {
  * @param {Object} res - Response object
  */
 Performance.prototype.setServerTimingResponseHeader = function (res) {
+    if (!performanceMetricsConfig.enabled) {
+        return;
+    }
+
     var route = this.route;
     var routeMetrics = '';
 

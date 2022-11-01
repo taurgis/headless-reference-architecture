@@ -4,7 +4,11 @@ var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 var Response = proxyquire('../../../../cartridges/modules/server/response', {
     '*/cartridge/config/httpHeadersConf': [{ 'id': 'testId', 'value': 'testValue' }]
 });
-var Route = require('../../../../cartridges/modules/server/route');
+var Route = proxyquire('../../../../cartridges/modules/server/route', {
+    './performanceMetrics': proxyquire('../../../../cartridges/modules/server/performanceMetrics', {
+        '*/cartridge/config/performanceMetricsConf': require('../../../../cartridges/app_api_base/cartridge/config/performanceMetricsConf.json')
+    })
+});
 
 var sinon = require('sinon');
 var assert = require('chai').assert;
@@ -114,7 +118,10 @@ describe('route', function () {
                     return false;
                 },
                 'PRODUCTION_SYSTEM': true
-            }
+            },
+            './performanceMetrics': proxyquire('../../../../cartridges/modules/server/performanceMetrics', {
+                '*/cartridge/config/performanceMetricsConf': require('../../../../cartridges/app_api_base/cartridge/config/performanceMetricsConf.json')
+            })
         });
 
         function tempFunc(req, res, next) {
@@ -143,7 +150,10 @@ describe('route', function () {
                     return true;
                 },
                 'PRODUCTION_SYSTEM': true
-            }
+            },
+            './performanceMetrics': proxyquire('../../../../cartridges/modules/server/performanceMetrics', {
+                '*/cartridge/config/performanceMetricsConf': require('../../../../cartridges/app_api_base/cartridge/config/performanceMetricsConf.json')
+            })
         });
 
         function tempFunc(req, res, next) {

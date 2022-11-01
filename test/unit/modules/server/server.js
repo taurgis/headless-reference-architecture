@@ -2,11 +2,16 @@
 
 'use strict';
 
-var Route = require('../../../../cartridges/modules/server/route');
 var assert = require('chai').assert;
 var middleware = require('../../../../cartridges/modules/server/middleware');
 var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 var sinon = require('sinon');
+
+var Route = proxyquire('../../../../cartridges/modules/server/route', {
+    './performanceMetrics': proxyquire('../../../../cartridges/modules/server/performanceMetrics', {
+        '*/cartridge/config/performanceMetricsConf': require('../../../../cartridges/app_api_base/cartridge/config/performanceMetricsConf.json')
+    })
+});
 
 var render = {
     template: sinon.spy(),
@@ -65,6 +70,10 @@ describe('server', function () {
             './render': render,
             './request': request,
             './response': require('../../../mocks/modules/responseMock'),
+            './route': Route,
+            './performanceMetrics': proxyquire('../../../../cartridges/modules/server/performanceMetrics', {
+                '*/cartridge/config/performanceMetricsConf': require('../../../../cartridges/app_api_base/cartridge/config/performanceMetricsConf.json')
+            }),
             'dw/system/HookMgr': {
                 hasHook: function (/* extension */) {
                     return true;

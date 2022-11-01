@@ -1,7 +1,13 @@
 'use strict';
 
 var assert = require('chai').assert;
-var PerformanceMetrics = require('../../../../cartridges/modules/server/performanceMetrics');
+var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
+
+var PerformanceMetrics = proxyquire('../../../../cartridges/modules/server/performanceMetrics', {
+    '*/cartridge/config/performanceMetricsConf': {
+        enabled: true
+    }
+});
 
 describe('performanceMetrics', function () {
     beforeEach(function () {
@@ -238,6 +244,69 @@ describe('performanceMetrics', function () {
             });
 
             assert.equal(headerResult, 'script;dur=0, Route-Step-1;dur=0, Route-Step-2;dur=0, render;dur=0');
+        });
+    });
+
+    describe('config disabled', function () {
+        before(function () {
+            PerformanceMetrics = proxyquire('../../../../cartridges/modules/server/performanceMetrics', {
+                '*/cartridge/config/performanceMetricsConf': {
+                    enabled: false
+                }
+            });
+        });
+
+        it('should not execute stopScriptPerformanceTimer if Performance Metrics are disabled', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.stopScriptPerformanceTimer();
+
+            assert.equal(performanceMetrics.scriptPerformance, 0);
+        });
+
+        it('should not execute startRoutePerformanceTimer if Performance Metrics are disabled', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.startRoutePerformanceTimer(1);
+
+            assert.equal(Object.keys(performanceMetrics.route).length, 0);
+        });
+
+        it('should not execute stopRoutePerformanceTimer if Performance Metrics are disabled', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.stopRoutePerformanceTimer(1);
+
+            assert.equal(Object.keys(performanceMetrics.route).length, 0);
+        });
+
+        it('should not execute startRenderPerformanceTimer if Performance Metrics are disabled', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.startRenderPerformanceTimer();
+
+            assert.isUndefined(performanceMetrics.renderPerfStartTime);
+        });
+
+        it('should not execute stopRenderPerformanceTimer if Performance Metrics are disabled', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+
+            performanceMetrics.stopRenderPerformanceTimer();
+
+            assert.equal(performanceMetrics.renderPerformance, 0);
+        });
+
+        it('should not execute setServerTimingResponseHeader if Performance Metrics are disabled', function () {
+            var performanceMetrics = PerformanceMetrics.getInstance();
+            var headerResult = null;
+
+            performanceMetrics.setServerTimingResponseHeader({
+                setHttpHeader: (key, value) => {
+                    headerResult = value;
+                }
+            });
+
+            assert.isNull(headerResult);
         });
     });
 });
