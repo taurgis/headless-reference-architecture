@@ -1,4 +1,7 @@
 # Headless Reference Architecture (HRA)
+[![CI](https://github.com/taurgis/headless-reference-architecture/actions/workflows/build-test.yml/badge.svg)](https://github.com/taurgis/headless-reference-architecture/actions/workflows/build-test.yml) [![codecov](https://codecov.io/gh/taurgis/headless-reference-architecture/branch/main/graph/badge.svg?token=FMAX7TORNV)](https://codecov.io/gh/taurgis/headless-reference-architecture) [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+
+
 
 This is a repository for the Headless Reference Architecture reference application, based on the Storefront Reference Architecture.
 
