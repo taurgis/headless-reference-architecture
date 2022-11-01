@@ -10,7 +10,10 @@ Response.prototype = {
         this.redirectUrl = url;
     },
     setViewData: function () {},
-    setHttpHeader: function () {}
+    setHttpHeader: function () {},
+    setRedirectStatus: function (status) {
+        this.redirectStatus = status;
+    }
 };
 
 module.exports = Response;

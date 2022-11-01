@@ -62,6 +62,7 @@ describe('server', function () {
         response.viewData = { };
         response.renderings = [{ type: 'render', subType: 'json' }]; // eslint-disable-line no-param-reassign
         response.setHttpHeader = function () {}; // eslint-disable-line no-param-reassign
+        response.setRedirectStatus = function () { }; // eslint-disable-line no-param-reassign
         return response;
     };
 
@@ -201,6 +202,12 @@ describe('server', function () {
         server.extend(exports);
         server.prepend('test', function () { return 'EXECUTED'; });
         assert.equal(server.getRoute('test').chain[0](), 'EXECUTED');
+    });
+
+    it('should throw when trying to prepend to non-existing route', function () {
+        server.get('test', function () {});
+        server.extend(server.exports());
+        assert.throws(function () { server.prepend('foo', function () {}); });
     });
 
     it('should replace existing route with a new one', function () {
@@ -354,6 +361,23 @@ describe('server', function () {
                     assert.equal(text, 'test');
                     done();
                 };
+                response.redirect('test');
+            });
+            next();
+        });
+        var exports = server.exports();
+        exports.test();
+    });
+
+    it('should redirect if requested in BeforeComplete with the set status', function (done) {
+        server.get('test', function (req, res, next) {
+            this.on('route:BeforeComplete', function (r, response) {
+                response.base.redirect = function (text) { // eslint-disable-line no-param-reassign
+                    assert.equal(text, 'test');
+                    done();
+                };
+
+                response.setRedirectStatus(301);
                 response.redirect('test');
             });
             next();

@@ -115,10 +115,31 @@ function createFakeRequest(overrides) {
                     suite: '302',
                     title: 'Dr'
 
-                }
+                },
+                addresses: [{
+                    address1: '15 South Point Drive',
+                    address2: null,
+                    city: 'Boston',
+                    countryCode: {
+                        displayValue: 'United States',
+                        value: 'US'
+                    },
+                    firstName: 'John',
+                    lastName: 'Snow',
+                    ID: 'Home',
+                    postalCode: '02125',
+                    stateCode: 'MA',
+                    postBox: '2134',
+                    salutation: null,
+                    secondName: null,
+                    suffix: null,
+                    suite: '302',
+                    title: 'Dr'
+                }]
             }
         },
         locale: 'ab_YZ',
+        setLocale: sinon.stub(),
         pageMetaData: {
             title: '',
             description: '',
@@ -361,6 +382,16 @@ describe('request', function () {
         assert.isUndefined(req.form.id);
     });
 
+    it('should retrieve an empty object if there are no form properties', function () {
+        var httpParamMap = null;
+        var req = new Request(
+            createFakeRequest({ httpParameterMap: httpParamMap, httpQueryString: '' }),
+            null,
+            createFakeRequest().session
+        );
+        assert.deepEqual(req.form, { });
+    });
+
     it('should contain locale ID', function () {
         var req = new Request(createFakeRequest(), createFakeRequest().customer, createFakeRequest().session);
         var expectedResult = createFakeRequest();
@@ -388,6 +419,12 @@ describe('request', function () {
     it('should call setCurrency once', function () {
         new Request(createFakeRequest(), createFakeRequest().customer, createFakeRequest().session);
         assert.isTrue(setCurrencyStub.calledOnce);
+    });
+
+    it('should contain helper function setCurrency on session', function () {
+        var req = new Request(createFakeRequest(), createFakeRequest().customer, createFakeRequest().session);
+        req.session.setCurrency('EUR');
+        assert.isTrue(setCurrencyStub.calledTwice);
     });
 
     it('should not call setCurrency when currency is a alternative currency code', function () {
@@ -449,5 +486,18 @@ describe('request', function () {
         fakeRequest.httpMethod = 'DELETE';
         var req = new Request(fakeRequest, createFakeRequest().customer, createFakeRequest().session);
         assert.equal(req.body, null);
+    });
+
+    it('should call setLocale once', function () {
+        var fakeRequest = createFakeRequest();
+        var req = new Request(fakeRequest, fakeRequest.customer, fakeRequest.session);
+        req.setLocale('nl_BE');
+        assert.isTrue(fakeRequest.setLocale.calledOnce);
+    });
+
+    it('should contain correct httpParameterMap object parameters exists', function () {
+        var fakeRequest = createFakeRequest();
+        var req = new Request(fakeRequest, fakeRequest.customer, fakeRequest.session);
+        assert.deepEqual(req.httpParameterMap, fakeRequest.httpParameterMap);
     });
 });
