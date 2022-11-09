@@ -15,7 +15,7 @@ var mockResponseHeaders = {
             toArray: () => mockCookies
         };
     }
-}
+};
 
 var mockGetSession = function (token, ip) {
     ipResult = ip;
