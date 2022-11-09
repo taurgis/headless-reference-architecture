@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, consistent-return */
 
 /**
  * Add customisations to the Search response.
@@ -33,7 +33,7 @@ exports.modifyGETResponse = function (searchResponse) {
                     delete searchResponse.sortingOptions;
                     delete searchResponse.searchPhraseSuggestions;
 
-                    // No need to do any other customisations, end the hook.
+                    // No need to do any other customisations, end the hook (and others after it).
                     return new Status(Status.OK);
                 }
             }
@@ -51,6 +51,4 @@ exports.modifyGETResponse = function (searchResponse) {
             return new Status(Status.ERROR, 'ERR-SEARCH-01', e.message);
         }
     }
-
-    return new Status(Status.OK);
 };
