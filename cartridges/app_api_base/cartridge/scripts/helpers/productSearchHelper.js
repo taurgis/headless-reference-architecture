@@ -12,10 +12,12 @@
  */
 exports.createExtendedProduct = function (productId) {
     var PromotionMgr = require('dw/campaign/PromotionMgr');
+    var CacheMgr = require('dw/system/CacheMgr');
+    var ProductMgr = require('dw/catalog/ProductMgr');
 
     var customerPromotions = PromotionMgr.getActiveCustomerPromotions();
-    var staticCache = dw.system.CacheMgr.getCache('ProductExtendStatic');
-    var product = dw.catalog.ProductMgr.getProduct(productId);
+    var staticCache = CacheMgr.getCache('ProductExtendStatic');
+    var product = ProductMgr.getProduct(productId);
 
     if (!product) {
         return null;
@@ -61,7 +63,7 @@ exports.createExtendedProduct = function (productId) {
     if (promos.hasNext()) {
         var promo = promos.next();
         // add personalized information to cache entry
-        var dynamicCache = dw.system.CacheMgr.getCache('ProductExtendDynamic');
+        var dynamicCache = CacheMgr.getCache('ProductExtendDynamic');
         var promotionPrice = dynamicCache.get(productId + ';' + promo.ID + ';' + request.locale, function () {
             var promoPrice = promo.getPromotionalPrice(product);
             return {
@@ -87,7 +89,9 @@ exports.getSearchRedirectInformation = function (query) {
         return null;
     }
 
-    var searchDrivenRedirectCache = dw.system.CacheMgr.getCache('SearchDrivenRedirect');
+    var CacheMgr = require('dw/system/CacheMgr');
+
+    var searchDrivenRedirectCache = CacheMgr.getCache('SearchDrivenRedirect');
 
     var result = searchDrivenRedirectCache.get(query + ';' + request.locale, function () {
         var ProductSearchModel = require('dw/catalog/ProductSearchModel');
