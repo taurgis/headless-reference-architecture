@@ -2,12 +2,10 @@
 
 var assert = require('chai').assert;
 var sinon = require('sinon');
-var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 
-var cacheMiddleware = proxyquire('../../../../../cartridges/app_api_base/cartridge/scripts/middleware/cache', {
-});
+var cacheMiddleware = require('../../../../../cartridges/app_api_base/cartridge/scripts/middleware/cache');
 
-describe('middleware', function () {
+describe('cache middleware', function () {
     var next = sinon.spy();
     var res = {
         cachePeriod: 0,

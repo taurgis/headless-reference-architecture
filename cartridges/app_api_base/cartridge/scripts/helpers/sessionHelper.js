@@ -52,9 +52,7 @@ function setUserSession(accessToken, resp, req) {
 
     var result = sessionBridge.getSession(accessToken, ip);
     if (result && result.responseHeaders) {
-        var cookies = result.responseHeaders.get('set-cookie')
-            ? result.responseHeaders.get('set-cookie')
-            : result.responseHeaders.get('Set-Cookie');
+        var cookies = result.responseHeaders.get('set-cookie');
 
         if (cookies) {
             responseObj.cookies = cookies;
