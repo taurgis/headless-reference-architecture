@@ -3,6 +3,10 @@
         {
             "name": "dw.system.request.onSession",
             "script": "./cartridge/scripts/hooks/onSession"
+        },
+        {
+            "name": "dw.ocapi.shop.product_search.modifyGETResponse",
+            "script": "./cartridge/scripts/hooks/search"
         }
     ]
 }

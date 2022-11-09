@@ -1,0 +1,12 @@
+{
+    "caches": [
+        {
+            "id": "ProductExtendStatic",
+            "expireAfterSeconds": 86400
+        },
+        {
+            "id": "ProductExtendDynamic",
+            "expireAfterSeconds": 86400
+        }
+    ]
+}

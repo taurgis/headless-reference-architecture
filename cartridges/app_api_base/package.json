@@ -1,3 +1,4 @@
 {
-    "hooks": "./hooks.json"
+    "hooks": "./hooks.json",
+    "caches": "./caches.json"
 }
