@@ -87,18 +87,24 @@ exports.getSearchRedirectInformation = function (query) {
         return null;
     }
 
-    var ProductSearchModel = require('dw/catalog/ProductSearchModel');
+    var searchDrivenRedirectCache = dw.system.CacheMgr.getCache('SearchDrivenRedirect');
 
-    var apiProductSearch = new ProductSearchModel();
+    var result = searchDrivenRedirectCache.get(query + ';' + request.locale, function () {
+        var ProductSearchModel = require('dw/catalog/ProductSearchModel');
 
-    /**
-     * @type {dw.web.URLRedirect}
-     */
-    var searchRedirect = apiProductSearch.getSearchRedirect(query);
+        var apiProductSearch = new ProductSearchModel();
 
-    if (searchRedirect) {
-        return searchRedirect.getLocation();
-    }
+        /**
+         * @type {dw.web.URLRedirect}
+         */
+        var searchRedirect = apiProductSearch.getSearchRedirect(query);
 
-    return null;
+        if (searchRedirect) {
+            return searchRedirect.getLocation();
+        }
+
+        return null;
+    });
+
+    return result;
 };

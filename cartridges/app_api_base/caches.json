@@ -7,6 +7,10 @@
         {
             "id": "ProductExtendDynamic",
             "expireAfterSeconds": 86400
+        },
+        {
+            "id": "SearchDrivenRedirect",
+            "expireAfterSeconds": 86400
         }
     ]
 }
