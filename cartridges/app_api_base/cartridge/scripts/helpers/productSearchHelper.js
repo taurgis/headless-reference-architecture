@@ -11,11 +11,9 @@
  * @returns {Object} - The extended attributes
  */
 exports.createExtendedProduct = function (productId) {
-    var PromotionMgr = require('dw/campaign/PromotionMgr');
     var CacheMgr = require('dw/system/CacheMgr');
     var ProductMgr = require('dw/catalog/ProductMgr');
 
-    var customerPromotions = PromotionMgr.getActiveCustomerPromotions();
     var staticCache = CacheMgr.getCache('ProductExtendStatic');
     var product = ProductMgr.getProduct(productId);
 
@@ -26,7 +24,7 @@ exports.createExtendedProduct = function (productId) {
     var resultSealed = staticCache.get(productId + ';' + request.locale, function () {
         var priceModel = product.priceModel;
         if (!priceModel) {
-            return null;
+            return {};
         }
         var originalPrice = priceModel.price;
         var activePriceBookId;
@@ -56,6 +54,9 @@ exports.createExtendedProduct = function (productId) {
             }
         };
     });
+
+    var PromotionMgr = require('dw/campaign/PromotionMgr');
+    var customerPromotions = PromotionMgr.getActiveCustomerPromotions();
     // make cache entry editable, as it is sealed otherweise
     var result = JSON.parse(JSON.stringify(resultSealed));
     result.id = productId;
