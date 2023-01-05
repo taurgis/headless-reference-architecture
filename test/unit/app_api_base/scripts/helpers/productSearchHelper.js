@@ -1,9 +1,9 @@
 'use strict';
 
-var assert = require('chai').assert;
-var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
+const assert = require('chai').assert;
+const proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 
-var productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/cartridge/scripts/helpers/productSearchHelper', {
+const productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/cartridge/scripts/helpers/productSearchHelper', {
     'dw/system/CacheMgr': {
         getCache: () => {
             return {
@@ -13,8 +13,16 @@ var productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/car
             };
         }
     },
+    '*/cartridge/scripts/helpers/seoHelper': require('../../../../../cartridges/app_api_base/cartridge/scripts/helpers/seoHelper'),
     'dw/catalog/ProductSearchModel': function () {
         return {
+            pageMetaTags: [{
+                ID: 'id',
+                content: 'content',
+                name: false,
+                property: true,
+                title: false
+            }],
             getSearchRedirect: function (query) {
                 if (query === 'my_query_with_redirect') {
                     return {
@@ -148,7 +156,7 @@ describe('createExtendedProduct', function () {
     });
 
     it('should return price and master product information when a valid product is passed with no pricebook info', function () {
-        var result = productSearchHelper.createExtendedProduct('existing_sku_no_pricebook');
+        const result = productSearchHelper.createExtendedProduct('existing_sku_no_pricebook');
 
         assert.deepEqual(result, {
             'id': 'existing_sku_no_pricebook',
@@ -176,7 +184,7 @@ describe('createExtendedProduct', function () {
     });
 
     it('should return price and master product information when a valid product is passed with pricebook info', function () {
-        var result = productSearchHelper.createExtendedProduct('existing_sku_with_pricebook');
+        const result = productSearchHelper.createExtendedProduct('existing_sku_with_pricebook');
 
         assert.deepEqual(result, {
             'id': 'existing_sku_with_pricebook',
@@ -195,13 +203,13 @@ describe('createExtendedProduct', function () {
     });
 
     it('should return no price and master product information when a valid product is passed with no priceInfo info', function () {
-        var result = productSearchHelper.createExtendedProduct('existing_sku_no_priceinfo');
+        const result = productSearchHelper.createExtendedProduct('existing_sku_no_priceinfo');
 
         assert.deepEqual(result, {});
     });
 
     it('should return no price and master product information when the product does not exist', function () {
-        var result = productSearchHelper.createExtendedProduct('non_existing_sku');
+        const result = productSearchHelper.createExtendedProduct('non_existing_sku');
         assert.isNull(result);
     });
 });
@@ -214,19 +222,41 @@ describe('getSearchRedirectInformation', function () {
     });
 
     it('should return the search redirect information', function () {
-        var result = productSearchHelper.getSearchRedirectInformation('my_query_with_redirect');
+        const result = productSearchHelper.getSearchRedirectInformation('my_query_with_redirect');
 
         assert.equal(result, 'https://www.rhino-inquisitor.com');
     });
 
     it('It should return null if there is no search redirect configured for the given query', function () {
-        var result = productSearchHelper.getSearchRedirectInformation('my_query_without_redirect');
+        const result = productSearchHelper.getSearchRedirectInformation('my_query_without_redirect');
 
         assert.isNull(result);
     });
 
     it('It should return null if no query is passed', function () {
-        var result = productSearchHelper.getSearchRedirectInformation();
+        const result = productSearchHelper.getSearchRedirectInformation();
+
+        assert.isNull(result);
+    });
+});
+
+describe('getSearchMetaData', function () {
+    it('should return a list of tags', function () {
+        const result = productSearchHelper.getSearchMetaData('test');
+
+        assert.deepEqual(result, [
+            {
+                'ID': 'id',
+                'content': 'content',
+                'name': false,
+                'property': true,
+                'title': false
+            }
+        ]);
+    });
+
+    it('should return null if no query is passed', function () {
+        const result = productSearchHelper.getSearchMetaData();
 
         assert.isNull(result);
     });

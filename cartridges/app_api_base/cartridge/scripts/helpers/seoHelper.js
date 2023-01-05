@@ -8,7 +8,7 @@
  * @returns {Array<{ID: string, content:string, name:boolean, property:boolean, title:boolean}>} - The configured Page Meta Tags
  */
 function getPageMetaTags(object) {
-    if (object === null) {
+    if (!object) {
         return null;
     }
 

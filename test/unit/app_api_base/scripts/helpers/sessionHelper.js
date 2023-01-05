@@ -1,11 +1,11 @@
 'use strict';
 
-var assert = require('chai').assert;
-var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
+const assert = require('chai').assert;
+const proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 
-var mockCookies = ['__cq_dnt=1; Path=/; Secure; SameSite=None; version=2', 'dw_dnt=1; Path=/; Secure; httponly; max-age=5; SameSite=None'];
-var ipResult = null;
-var mockResponseHeaders = {
+let mockCookies = ['__cq_dnt=1; Path=/; Secure; SameSite=None; version=2', 'dw_dnt=1; Path=/; Secure; httponly; max-age=5; SameSite=None'];
+let ipResult = null;
+let mockResponseHeaders = {
     get: () => {
         if (mockCookies === null) {
             return null;
@@ -17,7 +17,7 @@ var mockResponseHeaders = {
     }
 };
 
-var mockGetSession = function (token, ip) {
+const mockGetSession = function (token, ip) {
     ipResult = ip;
 
     return {
@@ -25,7 +25,7 @@ var mockGetSession = function (token, ip) {
     };
 };
 
-var sessionHelper = proxyquire('../../../../../cartridges/app_api_base/cartridge/scripts/helpers/sessionHelper', {
+const sessionHelper = proxyquire('../../../../../cartridges/app_api_base/cartridge/scripts/helpers/sessionHelper', {
     'dw/web/Cookie': function (name, cookieValue) {
         return {
             name: name,
@@ -48,14 +48,14 @@ describe('middleware', function () {
     });
 
     it('Should process all cookies', function () {
-        var response = {
+        const response = {
             cookies: [],
             addHttpCookie: function (cookie) {
                 this.cookies.push(cookie);
             }
         };
 
-        var result = sessionHelper.setUserSession('12345', response);
+        const result = sessionHelper.setUserSession('12345', response);
 
         assert.equal(response.cookies.length, 2);
         assert.isTrue(result.ok);
@@ -79,9 +79,9 @@ describe('middleware', function () {
     it('Should return a negative response if there are no cookies', function () {
         mockCookies = null;
 
-        var response = { cookies: [] };
+        const response = { cookies: [] };
 
-        var result = sessionHelper.setUserSession('12345', response);
+        const result = sessionHelper.setUserSession('12345', response, null);
 
         assert.equal(response.cookies.length, 0);
         assert.isFalse(result.ok);
@@ -90,7 +90,7 @@ describe('middleware', function () {
     it('Should add originating IP to the session bridge call', function () {
         mockCookies = null;
 
-        var response = { cookies: [] };
+        const response = { cookies: [] };
 
         sessionHelper.setUserSession('12345', response, { httpRemoteAddress: '123' });
 
@@ -101,9 +101,9 @@ describe('middleware', function () {
         mockCookies = null;
         mockResponseHeaders = null;
 
-        var response = { cookies: [] };
+        const response = { cookies: [] };
 
-        var result = sessionHelper.setUserSession('12345', response);
+        const result = sessionHelper.setUserSession('12345', response);
 
         assert.equal(response.cookies.length, 0);
         assert.isFalse(result.ok);

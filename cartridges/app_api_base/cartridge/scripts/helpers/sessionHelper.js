@@ -39,8 +39,8 @@ function addCookiesToResponse(cookieStrings, resp) {
 /**
  * Establish session with session bridge using the access token
  * @param {{string}}accessToken - access_token to be used to establish session
- * @param {{dw.system.Response}} resp - response object
- * @param {{dw.system.Request}} req - request object
+ * @param {dw.system.Response} resp - response object
+ * @param {dw.system.Request} req - request object
  * @returns {{Object}} - response from session bridge API call
  */
 function setUserSession(accessToken, resp, req) {
