@@ -47,7 +47,8 @@ function getStaticResultData(product) {
         };
     });
 
-    // make cache entry editable, as it is sealed otherweise
+    // make cache entry editable, as it is sealed otherwise
+
     return JSON.parse(JSON.stringify(resultSealed));
 }
 

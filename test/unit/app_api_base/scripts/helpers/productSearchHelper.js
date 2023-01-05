@@ -194,12 +194,10 @@ describe('createExtendedProduct', function () {
         });
     });
 
-    it('should return price and master product information when a valid product is passed with no priceInfo info', function () {
+    it('should return no price and master product information when a valid product is passed with no priceInfo info', function () {
         var result = productSearchHelper.createExtendedProduct('existing_sku_no_priceinfo');
 
-        assert.deepEqual(result, {
-            'id': 'existing_sku_no_priceinfo'
-        });
+        assert.deepEqual(result, {});
     });
 
     it('should return no price and master product information when the product does not exist', function () {
