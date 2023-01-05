@@ -55,7 +55,8 @@
     "sgmf-scripts": "2.4.2",
     "shelljs": "0.8.5",
     "should": "13.2.3",
-    "sinon": "14.0.1"
+    "sinon": "14.0.1",
+    "webpack": "^4.46.0"
   },
   "browserslist": [
     "last 2 versions",

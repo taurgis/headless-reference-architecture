@@ -7,6 +7,10 @@
         {
             "name": "dw.ocapi.shop.product_search.modifyGETResponse",
             "script": "./cartridge/scripts/hooks/search"
+        },
+        {
+            "name": "dw.ocapi.shop.product.modifyGETResponse",
+            "script": "./cartridge/scripts/hooks/product"
         }
     ]
 }

@@ -5,7 +5,7 @@
 /**
  * Add customisations to the Search response.
  *
- * @param {{query: string, c_searchRedirect: string}} searchResponse - Document representing a product search result.
+ * @param {{query: string, c_searchRedirect: string}} searchResponse - Document representing a product search result
  * @returns {dw.system.Status} - The status of the result (OK or Error)
  */
 exports.modifyGETResponse = function (searchResponse) {
