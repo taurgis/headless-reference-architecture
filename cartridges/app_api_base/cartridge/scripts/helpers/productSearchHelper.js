@@ -1,27 +1,18 @@
-/**
- * Original author: Holger Nestmann (plugin_hooktacular)
- */
-
 'use strict';
 
+var CacheMgr = require('dw/system/CacheMgr');
+
 /**
- * Converts a product into a extended object
+ * Fetch all static pricing information for the given product
  *
- * @param {string} productId - The SKU of the product
- * @returns {Object} - The extended attributes
+ * @param {dw.product.Product} product - The product
+ * @returns {Object} - The static pricing information
  */
-exports.createExtendedProduct = function (productId) {
-    var CacheMgr = require('dw/system/CacheMgr');
-    var ProductMgr = require('dw/catalog/ProductMgr');
-
+function getStaticResultData(product) {
     var staticCache = CacheMgr.getCache('ProductExtendStatic');
-    var product = ProductMgr.getProduct(productId);
 
-    if (!product) {
-        return null;
-    }
     // try to cache if we can
-    var resultSealed = staticCache.get(productId + ';' + request.locale, function () {
+    var resultSealed = staticCache.get(product.ID + ';' + request.locale, function () {
         var priceModel = product.priceModel;
         if (!priceModel) {
             return {};
@@ -40,6 +31,7 @@ exports.createExtendedProduct = function (productId) {
 
         return {
             masterProductId: product.variationModel.master ? product.variationModel.master.ID : product.ID,
+            id: product.ID,
             priceInfo: {
                 originalPrice: {
                     value: originalPrice.value,
@@ -55,18 +47,33 @@ exports.createExtendedProduct = function (productId) {
         };
     });
 
-    var PromotionMgr = require('dw/campaign/PromotionMgr');
-    var customerPromotions = PromotionMgr.getActiveCustomerPromotions();
     // make cache entry editable, as it is sealed otherweise
-    var result = JSON.parse(JSON.stringify(resultSealed));
-    result.id = productId;
+    return JSON.parse(JSON.stringify(resultSealed));
+}
+
+/**
+ * Fetch all static pricing information for the given product
+ *
+ * @param {dw.product.Product} product - The product
+ * @param {Object} result - The current result
+ *
+ * @returns {Object} - The result extended with promotional information
+ */
+function extendResultWithPromotionData(product, result) {
+    var PromotionMgr = require('dw/campaign/PromotionMgr');
+
+    var modifiedResult = result;
+    var customerPromotions = PromotionMgr.getActiveCustomerPromotions();
     var promos = customerPromotions.getProductPromotions(product).iterator();
+
     if (promos.hasNext()) {
         var promo = promos.next();
+
         // add personalized information to cache entry
         var dynamicCache = CacheMgr.getCache('ProductExtendDynamic');
-        var promotionPrice = dynamicCache.get(productId + ';' + promo.ID + ';' + request.locale, function () {
+        var promotionPrice = dynamicCache.get(product.ID + ';' + promo.ID + ';' + request.locale, function () {
             var promoPrice = promo.getPromotionalPrice(product);
+
             return {
                 value: promoPrice.value,
                 currency: promoPrice.currencyCode,
@@ -80,8 +87,30 @@ exports.createExtendedProduct = function (productId) {
             };
         });
 
-        result.priceInfo.promotionPrice = promotionPrice;
+        modifiedResult.priceInfo.promotionPrice = promotionPrice;
     }
+
+    return modifiedResult;
+}
+
+/**
+ * Converts a product into a extended object
+ *
+ * @param {string} productId - The SKU of the product
+ * @returns {Object} - The extended attributes
+ */
+exports.createExtendedProduct = function (productId) {
+    var ProductMgr = require('dw/catalog/ProductMgr');
+
+    var product = ProductMgr.getProduct(productId);
+
+    if (!product) {
+        return null;
+    }
+
+    var result = getStaticResultData(product);
+    result = extendResultWithPromotionData(product, result);
+
     return result;
 };
 
@@ -90,13 +119,10 @@ exports.getSearchRedirectInformation = function (query) {
         return null;
     }
 
-    var CacheMgr = require('dw/system/CacheMgr');
-
     var searchDrivenRedirectCache = CacheMgr.getCache('SearchDrivenRedirect');
 
     var result = searchDrivenRedirectCache.get(query + ';' + request.locale, function () {
         var ProductSearchModel = require('dw/catalog/ProductSearchModel');
-
         var apiProductSearch = new ProductSearchModel();
 
         /**
@@ -109,6 +135,25 @@ exports.getSearchRedirectInformation = function (query) {
         }
 
         return null;
+    });
+
+    return result;
+};
+
+exports.getSearchMetaData = function (query) {
+    if (!query) {
+        return null;
+    }
+
+    var metaDataCache = CacheMgr.getCache('MetaData');
+
+    var result = metaDataCache.get(query + ';' + request.locale, function () {
+        var ProductSearchModel = require('dw/catalog/ProductSearchModel');
+        var seoHelper = require('*/cartridge/scripts/helpers/seoHelper');
+
+        var apiProductSearch = new ProductSearchModel();
+
+        return seoHelper.getPageMetaTags(apiProductSearch);
     });
 
     return result;

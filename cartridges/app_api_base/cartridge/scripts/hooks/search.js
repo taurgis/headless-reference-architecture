@@ -6,7 +6,7 @@
  * Add customisations to the Search response.
  *
  * @param {{query: string, c_searchRedirect: string}} searchResponse - Document representing a product search result.
- * @returns {dw.system.status} - The status of the result (OK or Error)
+ * @returns {dw.system.Status} - The status of the result (OK or Error)
  */
 exports.modifyGETResponse = function (searchResponse) {
     var Status = require('dw/system/Status');
@@ -35,6 +35,17 @@ exports.modifyGETResponse = function (searchResponse) {
 
                     // No need to do any other customisations, end the hook (and others after it).
                     return new Status(Status.OK);
+                }
+
+                var metaData = productSearchHelpers.getSearchMetaData(searchResponse.query);
+
+                if (searchResponse.count > 0) {
+                    searchResponse.hits[0].c_metadata = metaData;
+                } else {
+                    searchResponse.hits = [{
+                        product_id: 'metadata',
+                        c_metadata: metaData
+                    }];
                 }
             }
 

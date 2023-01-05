@@ -11,6 +11,10 @@
         {
             "id": "SearchDrivenRedirect",
             "expireAfterSeconds": 86400
+        },
+        {
+            "id": "MetaData",
+            "expireAfterSeconds": 86400
         }
     ]
 }
