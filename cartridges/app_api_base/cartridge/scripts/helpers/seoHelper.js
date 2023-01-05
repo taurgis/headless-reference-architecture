@@ -5,7 +5,7 @@
  *
  * @param {Object} object - object which contains page meta tags
  *
- * @returns {Array<{ID: string, content:string, name:boolean, property:boolean, title:boolean}>}
+ * @returns {Array<{ID: string, content:string, name:boolean, property:boolean, title:boolean}>} - The configured Page Meta Tags
  */
 function getPageMetaTags(object) {
     if (object === null) {
