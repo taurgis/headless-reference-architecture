@@ -115,6 +115,14 @@ ___
 
 The Sitemap generation can be done here:
 
+___
+#### Alias & ECDN
+As all projects are unique in their set-up, the final step is to make sure the sitemap is generated using your own domain by configuring the aliases.
+
+```Merchant Tools > SEO > Aliases```
+
+**Documentation**: [https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/search_engine_optimization/b2c_hostname_aliases.html](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/search_engine_optimization/b2c_hostname_aliases.html)
+
 `Merchant Tools > SEO > Sitemaps`
 
 ### Composable Storefront
