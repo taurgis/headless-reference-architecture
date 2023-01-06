@@ -5,7 +5,7 @@
 /**
  * Add customisations to the Product response.
  *
- * @param {dw.product.Product} dwProduct - The product
+ * @param {dw.catalog.Product} dwProduct - The product
  * @param {Object} product - Document representing a product
  */
 exports.modifyGETResponse = function (dwProduct, product) {
