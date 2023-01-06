@@ -87,4 +87,63 @@ You can also supply URL of the sandbox on the command line:
 npm run test:integration -- --baseUrl devxx-sitegenesis-dw.demandware.net
 ```
 
+# Sitemap
+
+In this project, the "Sitemap" controller is present to enable the use of the standard sitemap functionality that Salesforce B2C Commerce Cloud provides.
+For this to work with the Composable Storefront, changes need to be made to the URL generation, matching the configuration in the Business Manager.
+
+## Example
+### Business Manager
+_**NOTE**: URL Rules can be found here: `Merchant Tools > SEO > URL Rules`_
+#### URL Rules: Settings
+In the "Locale Mapping" settings select the type `Path` and fill in the corresponding values for each locale.
+
+e.g. "English (United States), en_US" should have the value `en-US`
+
+#### URL Rules: Catalog URLs
+In the Product URL Rule field, fill in the following value:
+```
+[ constant, p ]
+```
+
+Make sure to uncheck the "Enable Override with 'pageURL' Product Attribute (if set)".
+
+#### Sitemap
+
+The Sitemap generation can be done here:
+
+`Merchant Tools > SEO > Sitemaps`
+
+## Composable Storefront
+### app/routes.jsx
+Change the route for the ProductDetail page to the following:
+```
+{
+    path: '/p/:productId.html',
+    component: ProductDetail
+}
+```
+
+_**Note**: .html is necessary, as this can not be removed in the settings._
+
+
+### config/default.js
+In order to match our Business Manager config, the `app.url.locale` setting must be `path` and the `app.url.showDefaults` setting must be `true`.
+```
+module.exports = {
+    app: {
+        // Customize how your 'site' and 'locale' are displayed in the url.
+        url: {
+            // Determine where the siteRef is located. Valid values include 'path|query_param|none'. Defaults to: 'none'
+            // site: 'none',
+            // Determine where the localeRef is located. Valid values include 'path|query_param|none'. Defaults to: 'none'
+            locale: 'path',
+            // This boolean value dictates whether or not default site or locale values are shown in the url. Defaults to: false
+            showDefaults: true
+        },
+        ...
+    }
+}
+```
+
 # [Contributing to HRA](./CONTRIBUTING.md)
