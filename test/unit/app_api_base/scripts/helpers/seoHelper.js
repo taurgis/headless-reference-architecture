@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('chai').assert;
 
 const seoHelper = require('../../../../../cartridges/app_api_base/cartridge/scripts/helpers/seoHelper');

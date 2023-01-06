@@ -33,6 +33,9 @@ const productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/c
                 }
 
                 return null;
+            },
+            setCategoryID: function () {
+                // Do Nothing
             }
         };
     },
@@ -257,6 +260,30 @@ describe('getSearchMetaData', function () {
 
     it('should return null if no query is passed', function () {
         const result = productSearchHelper.getSearchMetaData();
+
+        assert.isNull(result);
+    });
+});
+
+describe('getCategoryMetaData', function () {
+    it('should return a list of tags', function () {
+        const result = productSearchHelper.getCategoryMetaData({
+            ID: 'test'
+        });
+
+        assert.deepEqual(result, [
+            {
+                'ID': 'id',
+                'content': 'content',
+                'name': false,
+                'property': true,
+                'title': false
+            }
+        ]);
+    });
+
+    it('should return null if no query is passed', function () {
+        const result = productSearchHelper.getCategoryMetaData();
 
         assert.isNull(result);
     });

@@ -141,6 +141,12 @@ exports.getSearchRedirectInformation = function (query) {
     return result;
 };
 
+/**
+ * Retrieve Custom Page Meta Tag Rules configured in the Business Manager for search
+ *
+ * @param {string} query - The search query
+ * @returns {Object|null} - The configured rules
+ */
 exports.getSearchMetaData = function (query) {
     if (!query) {
         return null;
@@ -153,6 +159,32 @@ exports.getSearchMetaData = function (query) {
         var seoHelper = require('*/cartridge/scripts/helpers/seoHelper');
 
         var apiProductSearch = new ProductSearchModel();
+
+        return seoHelper.getPageMetaTags(apiProductSearch);
+    });
+
+    return result;
+};
+
+/**
+ * Retrieve Custom Page Meta Tag Rules configured in the Business Manager for a category
+ *
+ * @param {string} category - The category
+ * @returns {Object|null} - The configured rules
+ */
+exports.getCategoryMetaData = function (category) {
+    if (!category) {
+        return null;
+    }
+
+    var metaDataCache = CacheMgr.getCache('MetaData');
+
+    var result = metaDataCache.get(category.ID + ';' + request.locale, function () {
+        var ProductSearchModel = require('dw/catalog/ProductSearchModel');
+        var seoHelper = require('*/cartridge/scripts/helpers/seoHelper');
+
+        var apiProductSearch = new ProductSearchModel();
+        apiProductSearch.setCategoryID(category.ID);
 
         return seoHelper.getPageMetaTags(apiProductSearch);
     });

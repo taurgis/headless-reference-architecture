@@ -13,10 +13,10 @@ exports.modifyGETResponse = function (searchResponse) {
 
     if (request.isSCAPI()) {
         try {
-            var productSearchHelpers = require('../helpers/productSearchHelper');
+            var productSearchHelper = require('../helpers/productSearchHelper');
 
             if (searchResponse.query) {
-                var redirectResult = productSearchHelpers.getSearchRedirectInformation(searchResponse.query);
+                var redirectResult = productSearchHelper.getSearchRedirectInformation(searchResponse.query);
 
                 if (redirectResult) {
                     // We can only add custom attributes on a "Hit"
@@ -37,7 +37,7 @@ exports.modifyGETResponse = function (searchResponse) {
                     return new Status(Status.OK);
                 }
 
-                var metaData = productSearchHelpers.getSearchMetaData(searchResponse.query);
+                var metaData = productSearchHelper.getSearchMetaData(searchResponse.query);
 
                 if (searchResponse.count > 0) {
                     searchResponse.hits[0].c_metadata = metaData;
@@ -54,7 +54,7 @@ exports.modifyGETResponse = function (searchResponse) {
 
                 hits.forEach(function (hit) {
                     if (hit.represented_product) {
-                        hit.c_extend = productSearchHelpers.createExtendedProduct(hit.represented_product.id);
+                        hit.c_extend = productSearchHelper.createExtendedProduct(hit.represented_product.id);
                     }
                 });
             }

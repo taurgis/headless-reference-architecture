@@ -9,6 +9,10 @@
             "script": "./cartridge/scripts/hooks/search"
         },
         {
+            "name": "dw.ocapi.shop.category.modifyGETResponse",
+            "script": "./cartridge/scripts/hooks/category"
+        },
+        {
             "name": "dw.ocapi.shop.product.modifyGETResponse",
             "script": "./cartridge/scripts/hooks/product"
         }
