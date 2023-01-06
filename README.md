@@ -146,4 +146,11 @@ module.exports = {
 }
 ```
 
+### app/utils/url.js
+Modify the productUrlBuilder function to match the one below:
+
+```
+export const productUrlBuilder = (product) => encodeURI(`/p/${product.id}.html`)
+```
+
 # [Contributing to HRA](./CONTRIBUTING.md)
