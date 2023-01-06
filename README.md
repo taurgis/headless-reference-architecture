@@ -96,26 +96,29 @@ For this to work with the Composable Storefront, changes need to be made to the 
 ### Business Manager
 _**NOTE**: URL Rules can be found here: `Merchant Tools > SEO > URL Rules`_
 #### URL Rules: Settings
+![](docs/screenshots/locale-mapping.jpg)
 In the "Locale Mapping" settings select the type `Path` and fill in the corresponding values for each locale.
 
 e.g. "English (United States), en_US" should have the value `en-US`
+___
 
 #### URL Rules: Catalog URLs
+![](docs/screenshots/product-url-rules.jpg)
 In the Product URL Rule field, fill in the following value:
 ```
 [ constant, p ]
 ```
 
 Make sure to uncheck the "Enable Override with 'pageURL' Product Attribute (if set)".
-
+___
 #### Sitemap
 
 The Sitemap generation can be done here:
 
 `Merchant Tools > SEO > Sitemaps`
 
-## Composable Storefront
-### app/routes.jsx
+### Composable Storefront
+#### app/routes.jsx
 Change the route for the ProductDetail page to the following:
 ```
 {
@@ -126,8 +129,8 @@ Change the route for the ProductDetail page to the following:
 
 _**Note**: .html is necessary, as this can not be removed in the settings._
 
-
-### config/default.js
+___
+#### config/default.js
 In order to match our Business Manager config, the `app.url.locale` setting must be `path` and the `app.url.showDefaults` setting must be `true`.
 ```
 module.exports = {
@@ -145,8 +148,8 @@ module.exports = {
     }
 }
 ```
-
-### app/utils/url.js
+___
+#### app/utils/url.js
 Modify the productUrlBuilder function to match the one below:
 
 ```
