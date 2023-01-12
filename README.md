@@ -87,13 +87,22 @@ You can also supply URL of the sandbox on the command line:
 npm run test:integration -- --baseUrl devxx-sitegenesis-dw.demandware.net
 ```
 
+# SEO: Search Driven Redirects
+The Business Manager module to configure search driven redirects (`Merchant Tools > Search > Search Driven Redirects`) has been exposed to the following endpoint:
+* Product Search: `/search/shopper-search/v1/organizations/{{organization}}/product-search`
+
+## Hacky way in Search
+The custom hook will remove all product results from the response, replacing it with a single result with the attribute "c_redirect". The reasoning is that the SCAPI adheres closely to the rules of the endpoint, meaning that no custom attributes can be placed in the top level, and all custom fields need to start with `c_`. 
+
+For now, it is also impossible to adjust headers or anything else that would make more sense.
+
 # SEO: Page Meta Tag Rules
 The Business Manager module to manage all of the Meta Tags dynamically for a page have been exposed to the following endpoints:
 * Product Detail (`/product/shopper-products/v1/organizations/{{organization}}/products`)
 * Category (`/product/shopper-products/v1/organizations/{{organization}}/categories/{{category}}`)
 
 ## Hacky way in Search
-Besides these, the search endpoint (`/search/shopper-search/v1/organizations/{{organization}}/product-search`) has also been extended with this information. Unfortunately it is not possible to set a custom (c_) attribute at the top level, so it has been stored on the first "hit":
+Besides these, the search endpoint (`/search/shopper-search/v1/organizations/{{organization}}/product-search`) has also been extended with this information. Unfortunately, it is not possible to set a custom (c_) attribute at the top level, so it has been stored on the first "hit":
 
 ```
 {
@@ -133,8 +142,9 @@ Besides these, the search endpoint (`/search/shopper-search/v1/organizations/{{o
 
 # SEO: Sitemap
 
-In this project, the "Sitemap" controller is present to enable the use of the standard sitemap functionality that Salesforce B2C Commerce Cloud provides.
-For this to work with the Composable Storefront, changes need to be made to the URL generation, matching the configuration in the Business Manager.
+In this project, the "Sitemap" controller is present to enable using the standard sitemap functionality that Salesforce B2C Commerce Cloud provides.
+
+To work with the Composable Storefront, changes need to be made to the URL generation, matching the configuration in the Business Manager.
 
 ## Example
 ### Business Manager
