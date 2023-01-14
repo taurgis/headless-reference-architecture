@@ -87,7 +87,7 @@ describe('modifyGETResponse', function () {
 
             product.modifyGETResponse(searchResponse);
 
-            assert.equal(searchResponse.c_redirect, undefined);
+            assert.isUndefined(searchResponse.c_redirect);
         });
 
         it('should not return a search with redirect if no redirect has been found', function () {
@@ -98,7 +98,7 @@ describe('modifyGETResponse', function () {
 
             product.modifyGETResponse(searchResponse);
 
-            assert.equal(searchResponse.c_redirect, undefined);
+            assert.isUndefined(searchResponse.c_redirect);
         });
     });
 
@@ -152,7 +152,7 @@ describe('modifyGETResponse', function () {
 
             product.modifyGETResponse(searchResponse);
 
-            assert.equal(searchResponse.hits[0].c_metadata, undefined);
+            assert.isUndefined(searchResponse.hits[0].c_metadata);
         });
     });
 
@@ -196,7 +196,7 @@ describe('modifyGETResponse', function () {
 
             product.modifyGETResponse(searchResponse);
 
-            assert.equal(searchResponse.hits[0].c_extend, undefined);
+            assert.isUndefined(searchResponse.hits[0].c_extend);
         });
     });
 });
