@@ -6,7 +6,7 @@ var proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 
 var userLoggedInMiddleware = proxyquire('../../../../../cartridges/app_api_base/cartridge/scripts/middleware/userLoggedIn', {
     'dw/web/URLUtils': {
-        url: function () {
+        url: () => {
             return 'some url';
         }
     },
@@ -17,7 +17,7 @@ var userLoggedInMiddleware = proxyquire('../../../../../cartridges/app_api_base/
     }
 });
 
-describe('userLoggedInMiddleware', function () {
+describe('userLoggedInMiddleware', () => {
     var next = sinon.spy();
     var req = {
         currentCustomer: {
@@ -30,14 +30,14 @@ describe('userLoggedInMiddleware', function () {
         setStatusCode: sinon.spy()
     };
 
-    afterEach(function () {
+    afterEach(() => {
         next.resetHistory();
         res.json.resetHistory();
         res.setStatusCode.resetHistory();
         req.querystring = {};
     });
 
-    it('Should respond with an error if a user is not logged in', function () {
+    it('Should respond with an error if a user is not logged in', () => {
         userLoggedInMiddleware.validateLoggedIn(req, res, next);
         assert.isTrue(res.json.calledOnce);
         assert.isTrue(res.setStatusCode.calledOnce);
@@ -45,7 +45,7 @@ describe('userLoggedInMiddleware', function () {
         assert.isTrue(next.calledOnce);
     });
 
-    it('Should just call next if user is logged in', function () {
+    it('Should just call next if user is logged in', () => {
         req.currentCustomer.profile = 'profile';
         userLoggedInMiddleware.validateLoggedIn(req, res, next);
         assert.isTrue(res.setStatusCode.notCalled);

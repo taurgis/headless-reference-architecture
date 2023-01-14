@@ -42,12 +42,12 @@ const sessionHelper = proxyquire('../../../../../cartridges/app_api_base/cartrid
     }
 });
 
-describe('middleware', function () {
-    this.beforeEach(() => {
+describe('middleware', () => {
+    beforeEach(() => {
         ipResult = null;
     });
 
-    it('Should process all cookies', function () {
+    it('Should process all cookies', () => {
         const response = {
             cookies: [],
             addHttpCookie: function (cookie) {
@@ -76,7 +76,7 @@ describe('middleware', function () {
         assert.isTrue(secondCookie.httponly);
     });
 
-    it('Should return a negative response if there are no cookies', function () {
+    it('Should return a negative response if there are no cookies', () => {
         mockCookies = null;
 
         const response = { cookies: [] };
@@ -87,7 +87,7 @@ describe('middleware', function () {
         assert.isFalse(result.ok);
     });
 
-    it('Should add originating IP to the session bridge call', function () {
+    it('Should add originating IP to the session bridge call', () => {
         mockCookies = null;
 
         const response = { cookies: [] };
@@ -97,7 +97,7 @@ describe('middleware', function () {
         assert.equal(ipResult, '123');
     });
 
-    it('Should return a negative response if there are no response headers', function () {
+    it('Should return a negative response if there are no response headers', () => {
         mockCookies = null;
         mockResponseHeaders = null;
 

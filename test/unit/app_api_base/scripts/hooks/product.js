@@ -13,8 +13,8 @@ const product = proxyquire('../../../../../cartridges/app_api_base/cartridge/scr
     }
 });
 
-describe('modifyGETResponse', function () {
-    before(function () {
+describe('modifyGETResponse', () => {
+    before(() => {
         global.request = {
             isSCAPI: () => {
                 return isSCAPI;
@@ -22,11 +22,11 @@ describe('modifyGETResponse', function () {
         };
     });
 
-    beforeEach(function () {
+    beforeEach(() => {
         isSCAPI = true;
     });
 
-    it('should return product with metadata', function () {
+    it('should return product with metadata', () => {
         const dwProduct = {};
         const productResponse = {};
 
@@ -35,7 +35,7 @@ describe('modifyGETResponse', function () {
         assert.equal(productResponse.c_metadata.test, 'test');
     });
 
-    it('should not return product with metadata if the request is not from the SCAPI', function () {
+    it('should not return product with metadata if the request is not from the SCAPI', () => {
         const dwProduct = {};
         const productResponse = {};
         isSCAPI = false;

@@ -13,8 +13,8 @@ const category = proxyquire('../../../../../cartridges/app_api_base/cartridge/sc
     }
 });
 
-describe('modifyGETResponse', function () {
-    before(function () {
+describe('modifyGETResponse', () => {
+    before(() => {
         global.request = {
             isSCAPI: () => {
                 return isSCAPI;
@@ -22,11 +22,11 @@ describe('modifyGETResponse', function () {
         };
     });
 
-    beforeEach(function () {
+    beforeEach(() => {
         isSCAPI = true;
     });
 
-    it('should return category with metadata', function () {
+    it('should return category with metadata', () => {
         const dwCategory = {};
         const categoryResponse = {};
 
@@ -35,7 +35,7 @@ describe('modifyGETResponse', function () {
         assert.equal(categoryResponse.c_metadata.test, 'test');
     });
 
-    it('should not return category with metadata if the request is not from the SCAPI', function () {
+    it('should not return category with metadata if the request is not from the SCAPI', () => {
         const dwCategory = {};
         const categoryResponse = {};
         isSCAPI = false;

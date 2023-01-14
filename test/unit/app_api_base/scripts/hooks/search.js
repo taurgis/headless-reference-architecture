@@ -28,8 +28,8 @@ const product = proxyquire('../../../../../cartridges/app_api_base/cartridge/scr
     }
 });
 
-describe('modifyGETResponse', function () {
-    before(function () {
+describe('modifyGETResponse', () => {
+    before(() => {
         global.request = {
             isSCAPI: () => {
                 return isSCAPI;
@@ -37,21 +37,21 @@ describe('modifyGETResponse', function () {
         };
     });
 
-    beforeEach(function () {
+    beforeEach(() => {
         isSCAPI = true;
         getSearchRedirectInformationResult = null;
         getSearchMetaDataResult = null;
         createExtendedProductResult = null;
     });
 
-    it('should catch exceptions', function () {
+    it('should catch exceptions', () => {
         var result = product.modifyGETResponse();
 
         assert.equal(result.code, 'ERR-SEARCH-01');
     });
 
-    describe('Search Redirect', function () {
-        it('should return search with redirect information', function () {
+    describe('Search Redirect', () => {
+        it('should return search with redirect information', () => {
             const searchResponse = {
                 query: 'rhino',
                 hits: [{}, {}],
@@ -78,7 +78,7 @@ describe('modifyGETResponse', function () {
             assert.equal(result.OK, 1);
         });
 
-        it('should not return search with redirect information if the request is not from the SCAPI', function () {
+        it('should not return search with redirect information if the request is not from the SCAPI', () => {
             const searchResponse = {
                 query: 'rhino'
             };
@@ -90,7 +90,7 @@ describe('modifyGETResponse', function () {
             assert.isUndefined(searchResponse.c_redirect);
         });
 
-        it('should not return a search with redirect if no redirect has been found', function () {
+        it('should not return a search with redirect if no redirect has been found', () => {
             const searchResponse = {
                 query: 'rhino'
             };
@@ -102,8 +102,8 @@ describe('modifyGETResponse', function () {
         });
     });
 
-    describe('Search Meta Data', function () {
-        it('should return search with metadata if there are results on the first hit', function () {
+    describe('Search Meta Data', () => {
+        it('should return search with metadata if there are results on the first hit', () => {
             const searchResponse = {
                 query: 'rhino',
                 hits: [{}, {}],
@@ -122,7 +122,7 @@ describe('modifyGETResponse', function () {
             assert.equal(searchResponse.hits[0].c_metadata.test, 'test');
         });
 
-        it('should return search with metadata if there are no results as the first hit', function () {
+        it('should return search with metadata if there are no results as the first hit', () => {
             const searchResponse = {
                 query: 'rhino',
                 hits: [],
@@ -141,7 +141,7 @@ describe('modifyGETResponse', function () {
             assert.equal(searchResponse.hits[0].product_id, 'metadata');
         });
 
-        it('should not return search with metadata if the request is not from the SCAPI', function () {
+        it('should not return search with metadata if the request is not from the SCAPI', () => {
             const searchResponse = {
                 query: 'rhino',
                 hits: [{}, {}]
@@ -156,8 +156,8 @@ describe('modifyGETResponse', function () {
         });
     });
 
-    describe('Search Extended Products', function () {
-        it('should return search with extended products', function () {
+    describe('Search Extended Products', () => {
+        it('should return search with extended products', () => {
             const searchResponse = {
                 query: 'rhino',
                 hits: [{
@@ -186,7 +186,7 @@ describe('modifyGETResponse', function () {
             assert.equal(searchResponse.hits[0].c_extend, createExtendedProductResult);
         });
 
-        it('should not return search with extended products if the request is not from the SCAPI', function () {
+        it('should not return search with extended products if the request is not from the SCAPI', () => {
             const searchResponse = {
                 query: 'rhino',
                 hits: [{}, {}]

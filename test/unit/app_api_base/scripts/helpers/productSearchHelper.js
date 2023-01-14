@@ -34,7 +34,7 @@ const productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/c
 
                 return null;
             },
-            setCategoryID: function () {
+            setCategoryID: () => {
                 // Do Nothing
             }
         };
@@ -99,7 +99,7 @@ const productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/c
         }
     },
     'dw/campaign/PromotionMgr': {
-        getActiveCustomerPromotions: function () {
+        getActiveCustomerPromotions: () => {
             return {
                 getProductPromotions: function (product) {
                     if (product.ID === 'existing_sku_no_pricebook') {
@@ -115,7 +115,7 @@ const productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/c
                                             image: {
                                                 absURL: 'http://image.jpg'
                                             },
-                                            getPromotionalPrice: () => {
+                                            getPromotionalPrice: function () {
                                                 return {
                                                     value: 50,
                                                     currencyCode: 'EUR'
@@ -135,7 +135,7 @@ const productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/c
                     }
 
                     return {
-                        iterator: function () {
+                        iterator: () => {
                             return {
                                 hasNext: () => false
                             };
@@ -147,7 +147,7 @@ const productSearchHelper = proxyquire('../../../../../cartridges/app_api_base/c
     }
 });
 
-describe('createExtendedProduct', function () {
+describe('createExtendedProduct', () => {
     before(() => {
         global.request = {
             locale: 'nl_BE'
@@ -158,7 +158,7 @@ describe('createExtendedProduct', function () {
         };
     });
 
-    it('should return price and master product information when a valid product is passed with no pricebook info', function () {
+    it('should return price and master product information when a valid product is passed with no pricebook info', () => {
         const result = productSearchHelper.createExtendedProduct('existing_sku_no_pricebook');
 
         assert.deepEqual(result, {
@@ -186,7 +186,7 @@ describe('createExtendedProduct', function () {
         });
     });
 
-    it('should return price and master product information when a valid product is passed with pricebook info', function () {
+    it('should return price and master product information when a valid product is passed with pricebook info', () => {
         const result = productSearchHelper.createExtendedProduct('existing_sku_with_pricebook');
 
         assert.deepEqual(result, {
@@ -205,46 +205,46 @@ describe('createExtendedProduct', function () {
         });
     });
 
-    it('should return no price and master product information when a valid product is passed with no priceInfo info', function () {
+    it('should return no price and master product information when a valid product is passed with no priceInfo info', () => {
         const result = productSearchHelper.createExtendedProduct('existing_sku_no_priceinfo');
 
         assert.deepEqual(result, {});
     });
 
-    it('should return no price and master product information when the product does not exist', function () {
+    it('should return no price and master product information when the product does not exist', () => {
         const result = productSearchHelper.createExtendedProduct('non_existing_sku');
         assert.isNull(result);
     });
 });
 
-describe('getSearchRedirectInformation', function () {
+describe('getSearchRedirectInformation', () => {
     before(() => {
         global.request = {
             locale: 'nl_BE'
         };
     });
 
-    it('should return the search redirect information', function () {
+    it('should return the search redirect information', () => {
         const result = productSearchHelper.getSearchRedirectInformation('my_query_with_redirect');
 
         assert.equal(result, 'https://www.rhino-inquisitor.com');
     });
 
-    it('It should return null if there is no search redirect configured for the given query', function () {
+    it('It should return null if there is no search redirect configured for the given query', () => {
         const result = productSearchHelper.getSearchRedirectInformation('my_query_without_redirect');
 
         assert.isNull(result);
     });
 
-    it('It should return null if no query is passed', function () {
+    it('It should return null if no query is passed', () => {
         const result = productSearchHelper.getSearchRedirectInformation();
 
         assert.isNull(result);
     });
 });
 
-describe('getSearchMetaData', function () {
-    it('should return a list of tags', function () {
+describe('getSearchMetaData', () => {
+    it('should return a list of tags', () => {
         const result = productSearchHelper.getSearchMetaData('test');
 
         assert.deepEqual(result, [
@@ -258,15 +258,15 @@ describe('getSearchMetaData', function () {
         ]);
     });
 
-    it('should return null if no query is passed', function () {
+    it('should return null if no query is passed', () => {
         const result = productSearchHelper.getSearchMetaData();
 
         assert.isNull(result);
     });
 });
 
-describe('getCategoryMetaData', function () {
-    it('should return a list of tags', function () {
+describe('getCategoryMetaData', () => {
+    it('should return a list of tags', () => {
         const result = productSearchHelper.getCategoryMetaData({
             ID: 'test'
         });
@@ -282,7 +282,7 @@ describe('getCategoryMetaData', function () {
         ]);
     });
 
-    it('should return null if no query is passed', function () {
+    it('should return null if no query is passed', () => {
         const result = productSearchHelper.getCategoryMetaData();
 
         assert.isNull(result);
