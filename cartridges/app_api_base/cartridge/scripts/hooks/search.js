@@ -13,7 +13,7 @@ exports.modifyGETResponse = function (searchResponse) {
 
     if (request.isSCAPI()) {
         try {
-            var productSearchHelper = require('../helpers/productSearchHelper');
+            var productSearchHelper = require('*/cartridge/scripts/helpers/productSearchHelper');
 
             if (searchResponse.query) {
                 var redirectResult = productSearchHelper.getSearchRedirectInformation(searchResponse.query);
@@ -51,7 +51,6 @@ exports.modifyGETResponse = function (searchResponse) {
 
             if (searchResponse.count > 0) {
                 var hits = searchResponse.hits.toArray();
-
                 hits.forEach(function (hit) {
                     if (hit.represented_product) {
                         hit.c_extend = productSearchHelper.createExtendedProduct(hit.represented_product.id);
