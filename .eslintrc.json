@@ -19,5 +19,8 @@
         "dw": true,
         "customer": true,
         "session": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017
     }
 }

@@ -2,8 +2,5 @@
     "plugins": ["sitegenesis"],
     "rules": {
         "sitegenesis/no-global-require": ["error"]
-    },
-    "parserOptions": {
-        "ecmaVersion": 2017
     }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-var CacheMgr = require('dw/system/CacheMgr');
+var { getCache } = require('dw/system/CacheMgr');
 
 /**
  * Fetch all static pricing information for the given product
@@ -9,20 +9,24 @@ var CacheMgr = require('dw/system/CacheMgr');
  * @returns {Object} - The static pricing information
  */
 function getStaticResultData(product) {
-    var staticCache = CacheMgr.getCache('ProductExtendStatic');
+    var staticCache = getCache('ProductExtendStatic');
 
     // try to cache if we can
     var resultSealed = staticCache.get(product.ID + ';' + request.locale, function () {
         var priceModel = product.priceModel;
+
         if (!priceModel) {
             return {};
         }
+
         var originalPrice = priceModel.price;
         var activePriceBookId;
         var salePrice = priceModel.price;
         var parentPriceBookID;
+
         if (!empty(priceModel) && !empty(priceModel.priceInfo)) {
             activePriceBookId = priceModel.priceInfo.priceBook.ID;
+
             if (!empty(priceModel.priceInfo.priceBook.parentPriceBook)) {
                 parentPriceBookID = priceModel.priceInfo.priceBook.parentPriceBook.ID;
                 originalPrice = priceModel.getPriceBookPrice(parentPriceBookID);
@@ -61,17 +65,17 @@ function getStaticResultData(product) {
  * @returns {Object} - The result extended with promotional information
  */
 function extendResultWithPromotionData(product, result) {
-    var PromotionMgr = require('dw/campaign/PromotionMgr');
+    var { getActiveCustomerPromotions } = require('dw/campaign/PromotionMgr');
 
     var modifiedResult = result;
-    var customerPromotions = PromotionMgr.getActiveCustomerPromotions();
+    var customerPromotions = getActiveCustomerPromotions();
     var promos = customerPromotions.getProductPromotions(product).iterator();
 
     if (promos.hasNext()) {
         var promo = promos.next();
 
         // add personalized information to cache entry
-        var dynamicCache = CacheMgr.getCache('ProductExtendDynamic');
+        var dynamicCache = getCache('ProductExtendDynamic');
         var promotionPrice = dynamicCache.get(product.ID + ';' + promo.ID + ';' + request.locale, function () {
             var promoPrice = promo.getPromotionalPrice(product);
 
@@ -100,10 +104,10 @@ function extendResultWithPromotionData(product, result) {
  * @param {string} productId - The SKU of the product
  * @returns {Object} - The extended attributes
  */
-exports.createExtendedProduct = function (productId) {
-    var ProductMgr = require('dw/catalog/ProductMgr');
+exports.createExtendedProduct = (productId) => {
+    var { getProduct } = require('dw/catalog/ProductMgr');
 
-    var product = ProductMgr.getProduct(productId);
+    var product = getProduct(productId);
 
     if (!product) {
         return null;
@@ -115,12 +119,12 @@ exports.createExtendedProduct = function (productId) {
     return result;
 };
 
-exports.getSearchRedirectInformation = function (query) {
+exports.getSearchRedirectInformation = (query) => {
     if (!query) {
         return null;
     }
 
-    var searchDrivenRedirectCache = CacheMgr.getCache('SearchDrivenRedirect');
+    var searchDrivenRedirectCache = getCache('SearchDrivenRedirect');
 
     var result = searchDrivenRedirectCache.get(query + ';' + request.locale, function () {
         var ProductSearchModel = require('dw/catalog/ProductSearchModel');
@@ -147,20 +151,20 @@ exports.getSearchRedirectInformation = function (query) {
  * @param {string} query - The search query
  * @returns {Object|null} - The configured rules
  */
-exports.getSearchMetaData = function (query) {
+exports.getSearchMetaData = (query) => {
     if (!query) {
         return null;
     }
 
-    var metaDataCache = CacheMgr.getCache('MetaData');
+    var metaDataCache = getCache('MetaData');
 
     var result = metaDataCache.get(query + ';' + request.locale, function () {
         var ProductSearchModel = require('dw/catalog/ProductSearchModel');
-        var seoHelper = require('*/cartridge/scripts/helpers/seoHelper');
+        var { getPageMetaTags } = require('*/cartridge/scripts/helpers/seoHelper');
 
         var apiProductSearch = new ProductSearchModel();
 
-        return seoHelper.getPageMetaTags(apiProductSearch);
+        return getPageMetaTags(apiProductSearch);
     });
 
     return result;
@@ -172,21 +176,21 @@ exports.getSearchMetaData = function (query) {
  * @param {string} category - The category
  * @returns {Object|null} - The configured rules
  */
-exports.getCategoryMetaData = function (category) {
+exports.getCategoryMetaData = (category) => {
     if (!category) {
         return null;
     }
 
-    var metaDataCache = CacheMgr.getCache('MetaData');
+    var metaDataCache = getCache('MetaData');
 
     var result = metaDataCache.get(category.ID + ';' + request.locale, function () {
         var ProductSearchModel = require('dw/catalog/ProductSearchModel');
-        var seoHelper = require('*/cartridge/scripts/helpers/seoHelper');
+        var { getPageMetaTags } = require('*/cartridge/scripts/helpers/seoHelper');
 
         var apiProductSearch = new ProductSearchModel();
         apiProductSearch.setCategoryID(category.ID);
 
-        return seoHelper.getPageMetaTags(apiProductSearch);
+        return getPageMetaTags(apiProductSearch);
     });
 
     return result;
