@@ -15,7 +15,7 @@ var server = require('server');
  * @param {renders} - json
  * @param {serverfunction} - get
  */
-server.get('Test', function (req, res, next) {
+server.get('Test', (req, res, next) => {
     var System = require('dw/system/System');
 
     if ((System.getInstanceType() !== System.PRODUCTION_SYSTEM)

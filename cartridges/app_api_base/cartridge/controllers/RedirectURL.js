@@ -14,7 +14,7 @@ var server = require('server');
  * @param {category} - non-sensitive
  * @param {serverfunction} - get
  */
-server.get('Start', function (req, res, next) {
+server.get('Start', (req, res, next) => {
     var URLRedirectMgr = require('dw/web/URLRedirectMgr');
 
     var redirect = URLRedirectMgr.redirect;
@@ -22,17 +22,19 @@ server.get('Start', function (req, res, next) {
     var redirectStatus = redirect ? redirect.getStatus() : null;
 
     if (!location) {
-        var Resource = require('dw/web/Resource');
+        var { msg } = require('dw/web/Resource');
 
         res.setStatusCode(404);
+
         res.json({
-            error: Resource.msg('global.error.general', 'error', null),
-            message: Resource.msg('global.error.notfound', 'error', null)
+            error: msg('global.error.general', 'error', null),
+            message: msg('global.error.notfound', 'error', null)
         });
     } else {
         if (redirectStatus) {
             res.setRedirectStatus(redirectStatus);
         }
+
         res.redirect(location);
     }
 
@@ -48,15 +50,15 @@ server.get('Start', function (req, res, next) {
  * @param {category} - non-sensitive
  * @param {serverfunction} - get
  */
-server.get('Hostname', function (req, res, next) {
-    var URLUtils = require('dw/web/URLUtils');
+server.get('Hostname', (req, res, next) => {
+    var { httpHome } = require('dw/web/URLUtils');
 
     var url = req.querystring.Location.stringValue;
     var hostRegExp = new RegExp('^https?://' + req.httpHost + '(?=/|$)');
     var location;
 
     if (!url || !hostRegExp.test(url)) {
-        location = URLUtils.httpHome().toString();
+        location = httpHome().toString();
     } else {
         location = url;
     }

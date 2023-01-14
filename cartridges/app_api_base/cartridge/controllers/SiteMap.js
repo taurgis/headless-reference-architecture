@@ -10,7 +10,7 @@ var server = require('server');
  * # process sitemaps
  * RewriteRule ^/(sitemap([^/]*))$ /on/demandware.store/%{HTTP_HOST}/-/SiteMap-Google?name=$1 [PT,L]
  */
-server.get('Google', function (req, res, next) {
+server.get('Google', (req, res, next) => {
     var Pipelet = require('dw/system/Pipelet');
 
     var fileName = req.querystring.name;

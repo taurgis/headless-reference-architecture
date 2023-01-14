@@ -5,7 +5,7 @@
  */
 
 var server = require('server');
-var Resource = require('dw/web/Resource');
+var { msg } = require('dw/web/Resource');
 
 /**
  * Error-Start : This endpoint is called when there is a server error
@@ -17,17 +17,17 @@ var Resource = require('dw/web/Resource');
  * @param {renders} - json
  * @param {serverfunction} - get/post
  */
-server.use('Start', function (req, res, next) {
-    var system = require('dw/system/System');
+server.use('Start', (req, res, next) => {
+    var System = require('dw/system/System');
 
     res.setStatusCode(500);
 
-    var showError = system.getInstanceType() !== system.PRODUCTION_SYSTEM
-        && system.getInstanceType() !== system.STAGING_SYSTEM;
+    var showError = System.getInstanceType() !== System.PRODUCTION_SYSTEM
+        && System.getInstanceType() !== System.STAGING_SYSTEM;
 
     res.json({
         error: showError ? req.error || {} : {},
-        message: Resource.msg('global.error.general', 'error', null)
+        message: msg('global.error.general', 'error', null)
     });
 
     next();
@@ -43,13 +43,13 @@ server.use('Start', function (req, res, next) {
  * @param {renders} - json
  * @param {serverfunction} - get/post
  */
-server.use('ErrorCode', function (req, res, next) {
+server.use('ErrorCode', (req, res, next) => {
     res.setStatusCode(500);
     var errorMessage = 'message.error.' + req.querystring.err;
 
     res.json({
         error: req.error,
-        message: Resource.msg(errorMessage, 'error', null)
+        message: msg(errorMessage, 'error', null)
     });
 
     next();
@@ -63,14 +63,14 @@ server.use('ErrorCode', function (req, res, next) {
  * @param {category} - non-sensitive
  * @param {serverfunction} - get
  */
-server.get('Forbidden', function (req, res, next) {
-    var CustomerMgr = require('dw/customer/CustomerMgr');
+server.get('Forbidden', (req, res, next) => {
+    var { logoutCustomer } = require('dw/customer/CustomerMgr');
 
-    CustomerMgr.logoutCustomer(true);
+    logoutCustomer(true);
 
     res.json({
-        error: Resource.msg('global.error.forbidden', 'error', null),
-        message: Resource.msg('global.error.forbidden.message', 'error', null)
+        error: msg('global.error.forbidden', 'error', null),
+        message: msg('global.error.forbidden.message', 'error', null)
     });
 
     next();
