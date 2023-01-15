@@ -103,9 +103,17 @@ The value is made up of different metrics:
 
 > When the response is marked as cached, the header "x-sf-cc-server-timing" will have a default value of 0. This is because if the values were to be cached, they would no longer be accurate and therefore would not serve the purpose of performance monitoring.
 
+# Cache Information
+An additional header called `x-sf-cc-webadapter-cache` is included with every response. It provides information about the cache status of that specific endpoint. Here is an example of what the value might look like:
+```
+x-sf-cc-webadapter-cache: true,personalized=false,expires=1673897609059
+```
 
+The value is composed of the following information:
 
-
+* whether caching is enabled (true or false)
+* if the response is personalized (true or false)
+* the expiration date/time of the cache, represented as a number.
 
 # SEO: Search Driven Redirects
 The Business Manager module to configure search driven redirects (`Merchant Tools > Search > Search Driven Redirects`) has been exposed to the following endpoint:
