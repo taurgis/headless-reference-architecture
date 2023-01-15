@@ -2,6 +2,7 @@
 
 /**
  * Middleware validating if user logged in
+ *
  * @param {Object} req - Request object
  * @param {Object} res - Response object
  * @param {Function} next - Next call in the middleware chain
@@ -18,6 +19,7 @@ function validateLoggedIn(req, res, next) {
             message: Resource.msg('global.error.forbidden.message', 'error', null)
         });
     }
+
     next();
 }
 
