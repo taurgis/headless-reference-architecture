@@ -119,6 +119,12 @@ exports.createExtendedProduct = (productId) => {
     return result;
 };
 
+/**
+ * Get the redirect information for a search query.
+ *
+ * @param {string} query - The search query
+ * @returns {string|null} - The redirect information
+ */
 exports.getSearchRedirectInformation = (query) => {
     if (!query) {
         return null;
@@ -149,7 +155,7 @@ exports.getSearchRedirectInformation = (query) => {
  * Retrieve Custom Page Meta Tag Rules configured in the Business Manager for search
  *
  * @param {string} query - The search query
- * @returns {Object|null} - The configured rules
+ * @returns {Array<{ID: string, content:string, name:boolean, property:boolean, title:boolean}>|null} - The configured rules
  */
 exports.getSearchMetaData = (query) => {
     if (!query) {
@@ -174,7 +180,7 @@ exports.getSearchMetaData = (query) => {
  * Retrieve Custom Page Meta Tag Rules configured in the Business Manager for a category
  *
  * @param {string} category - The category
- * @returns {Object|null} - The configured rules
+ * @returns {Array<{ID: string, content:string, name:boolean, property:boolean, title:boolean}>|null} - The configured rules
  */
 exports.getCategoryMetaData = (category) => {
     if (!category) {

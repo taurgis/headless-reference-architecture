@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, consistent-return */
+/* eslint-disable no-param-reassign */
 
 'use strict';
 

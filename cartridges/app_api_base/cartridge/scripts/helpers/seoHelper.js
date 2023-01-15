@@ -13,15 +13,13 @@ function getPageMetaTags(object) {
     }
 
     if ('pageMetaTags' in object) {
-        return object.pageMetaTags.map(function (pageMetaTag) {
-            return {
-                ID: pageMetaTag.ID,
-                content: pageMetaTag.content,
-                name: pageMetaTag.name,
-                property: pageMetaTag.property,
-                title: pageMetaTag.title
-            };
-        });
+        return object.pageMetaTags.map((pageMetaTag) => ({
+            ID: pageMetaTag.ID,
+            content: pageMetaTag.content,
+            name: pageMetaTag.name,
+            property: pageMetaTag.property,
+            title: pageMetaTag.title
+        }));
     }
 
     return null;
