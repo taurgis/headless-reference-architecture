@@ -9,6 +9,31 @@ Headless Reference Architecture has a base cartridge (`app_api_base`) that is ne
 
 Your feedback on the ease-of-use and limitations of this new architecture is invaluable during the developer preview. Particularly, feedback on any issues you encounter or workarounds you develop for efficiently customizing the base cartridge without editing it directly.
 
+# Table of Contents
+- [Getting Started](#getting-started)
+- [NPM scripts](#npm-scripts)
+  * [Linting your code](#linting-your-code)
+  * [Watching for changes and uploading](#watching-for-changes-and-uploading)
+  * [Uploading](#uploading)
+- [Testing](#testing)
+  * [Running unit tests](#running-unit-tests)
+  * [Running integration tests](#running-integration-tests)
+- [Performance Monitoring](#performance-monitoring)
+- [Cache Information](#cache-information)
+- [SEO: Search Driven Redirects](#seo--search-driven-redirects)
+- [SEO: Page Meta Tag Rules](#seo--page-meta-tag-rules)
+- [SEO: Sitemap](#seo--sitemap)
+  * [Example](#example)
+    + [Business Manager](#business-manager)
+      - [URL Rules: Settings](#url-rules--settings)
+      - [URL Rules: Catalog URLs](#url-rules--catalog-urls)
+      - [Sitemap](#sitemap)
+      - [Alias & ECDN](#alias---ecdn)
+    + [Composable Storefront](#composable-storefront)
+      - [app/routes.jsx](#app-routesjsx)
+      - [config/default.js](#config-defaultjs)
+      - [app/utils/url.js](#app-utils-urljs)
+- [Contributing to HRA](./CONTRIBUTING.md)
 
 # The latest version
 
