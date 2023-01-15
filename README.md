@@ -101,6 +101,12 @@ The value is made up of different metrics:
 * **Route-Step-X**: each part of the route will have its own metrics, including prepends, appends, and middleware.
 * **Render**: the total time it takes to render the request, including JSON or print.
 
+> When the response is marked as cached, the header "x-sf-cc-server-timing" will have a default value of 0. This is because if the values were to be cached, they would no longer be accurate and therefore would not serve the purpose of performance monitoring.
+
+
+
+
+
 # SEO: Search Driven Redirects
 The Business Manager module to configure search driven redirects (`Merchant Tools > Search > Search Driven Redirects`) has been exposed to the following endpoint:
 * Product Search: `/search/shopper-search/v1/organizations/{{organization}}/product-search`
