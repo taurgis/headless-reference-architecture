@@ -86,6 +86,20 @@ You can also supply URL of the sandbox on the command line:
 ```
 npm run test:integration -- --baseUrl devxx-sitegenesis-dw.demandware.net
 ```
+# Performance Monitoring
+The HRA adds a special header called `x-sf-cc-server-timing` to all responses that are not cached. This allows for tracking and troubleshooting of performance.
+
+Here's an example of what the value might look like:
+
+```
+x-sf-cc-server-timing: script;dur=1076, Route-Step-1;dur=1075, render;dur=1
+```
+
+The value is made up of different metrics:
+
+* **script**: the amount of time it takes for a route to be processed, not including the time it takes to render the JSON or basic print.
+* **Route-Step-X**: each part of the route will have its own metrics, including prepends, appends, and middleware.
+* **Render**: the total time it takes to render the request, including JSON or print.
 
 # SEO: Search Driven Redirects
 The Business Manager module to configure search driven redirects (`Merchant Tools > Search > Search Driven Redirects`) has been exposed to the following endpoint:
