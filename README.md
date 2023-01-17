@@ -163,42 +163,32 @@ The Business Manager module to manage all of the Meta Tags dynamically for a pag
 * Product Detail (`/product/shopper-products/v1/organizations/{{organization}}/products`)
 * Category (`/product/shopper-products/v1/organizations/{{organization}}/categories/{{category}}`)
 
-## Hacky way in Search
-Besides these, the search endpoint (`/search/shopper-search/v1/organizations/{{organization}}/product-search`) has also been extended with this information. Unfortunately, it is not possible to set a custom (c_) attribute at the top level, so it has been stored on the first "hit":
+## Search Phrase Suggestions
+Besides these, the search endpoint (`/search/shopper-search/v1/organizations/{{organization}}/product-search`) has also been extended with this information. Unfortunately, it is not possible to set a custom (c_) attribute at the top level, so it has been stored on the `Search Phrase Suggestions`:
 
-```
+```json
 {
-    "limit": 25,
-    "hits": [
-        {
-           ...
-            "c_metadata": [
-                {
-                    "ID": "robots",
-                    "content": "index,follow",
-                    "name": true,
-                    "property": false,
-                    "title": false
-                },
-                {
-                    "ID": "og:url",
-                    "content": "...",
-                    "name": false,
-                    "property": true,
-                    "title": false
-                },
-                {
-                    "ID": "title",
-                    "content": "Find amazing products in Storefront Catalog - Non-EN' today | RefArchGlobal",
-                    "name": false,
-                    "property": false,
-                    "title": true
-                }
-            ],
-            ...
-        },
+    ...
+    "searchPhraseSuggestions": {
         ...
-    ]
+        "c_metadata": [
+            {
+                "ID": "robots",
+                "content": "index,follow",
+                "name": true,
+                "property": false,
+                "title": false
+            },
+            {
+                "ID": "title",
+                "content": "Find amazing products in Storefront Catalog - Non-EN' today | RefArchGlobal",
+                "name": false,
+                "property": false,
+                "title": true
+            }
+        ]
+    },
+    ...
 }
 ```
 

@@ -59,7 +59,7 @@ describe('modifyGETResponse', () => {
                 total: 2,
                 refinements: [],
                 sortingOptions: [],
-                searchPhraseSuggestions: []
+                search_phrase_suggestions: {}
             };
 
             getSearchRedirectInformationResult = 'https://www.rhino-inquisitor.com';
@@ -67,43 +67,42 @@ describe('modifyGETResponse', () => {
 
             var result = product.modifyGETResponse(searchResponse);
 
-            assert.equal(searchResponse.hits.length, 1);
-            assert.equal(searchResponse.hits[0].c_redirect, 'https://www.rhino-inquisitor.com');
-            assert.equal(searchResponse.count, 1);
-            assert.equal(searchResponse.total, 1);
-            assert.isUndefined(searchResponse.refinements);
-            assert.isUndefined(searchResponse.sortingOptions);
-            assert.isUndefined(searchResponse.searchPhraseSuggestions);
+            assert.equal(searchResponse.hits.length, 2);
+            assert.equal(searchResponse.search_phrase_suggestions.c_searchRedirect, 'https://www.rhino-inquisitor.com');
+            assert.equal(searchResponse.count, 2);
+            assert.equal(searchResponse.total, 2);
 
             assert.equal(result.OK, 1);
         });
 
         it('should not return search with redirect information if the request is not from the SCAPI', () => {
             const searchResponse = {
-                query: 'rhino'
+                query: 'rhino',
+                search_phrase_suggestions: {}
             };
             getSearchRedirectInformationResult = 'https://www.rhino-inquisitor.com';
             isSCAPI = false;
 
             product.modifyGETResponse(searchResponse);
 
-            assert.isUndefined(searchResponse.c_redirect);
+            assert.isUndefined(searchResponse.search_phrase_suggestions.c_searchRedirect);
         });
 
         it('should not return a search with redirect if no redirect has been found', () => {
             const searchResponse = {
-                query: 'rhino'
+                query: 'rhino',
+                search_phrase_suggestions: {}
             };
             getSearchRedirectInformationResult = null;
 
             product.modifyGETResponse(searchResponse);
 
-            assert.isUndefined(searchResponse.c_redirect);
+            assert.isUndefined(searchResponse.search_phrase_suggestions.c_searchRedirect);
         });
     });
 
     describe('Search Meta Data', () => {
-        it('should return search with metadata if there are results on the first hit', () => {
+        it('should return search with metadata if there are results', () => {
             const searchResponse = {
                 query: 'rhino',
                 hits: [{}, {}],
@@ -111,7 +110,7 @@ describe('modifyGETResponse', () => {
                 total: 2,
                 refinements: [],
                 sortingOptions: [],
-                searchPhraseSuggestions: []
+                search_phrase_suggestions: {}
             };
 
             getSearchMetaDataResult = { 'test': 'test' };
@@ -119,10 +118,10 @@ describe('modifyGETResponse', () => {
 
             product.modifyGETResponse(searchResponse);
 
-            assert.equal(searchResponse.hits[0].c_metadata.test, 'test');
+            assert.equal(searchResponse.search_phrase_suggestions.c_metadata.test, 'test');
         });
 
-        it('should return search with metadata if there are no results as the first hit', () => {
+        it('should return search with metadata if there are no results', () => {
             const searchResponse = {
                 query: 'rhino',
                 hits: [],
@@ -130,21 +129,21 @@ describe('modifyGETResponse', () => {
                 total: 0,
                 refinements: [],
                 sortingOptions: [],
-                searchPhraseSuggestions: []
+                search_phrase_suggestions: {}
             };
 
             getSearchMetaDataResult = { 'test': 'test' };
 
             product.modifyGETResponse(searchResponse);
 
-            assert.equal(searchResponse.hits[0].c_metadata.test, 'test');
-            assert.equal(searchResponse.hits[0].product_id, 'metadata');
+            assert.equal(searchResponse.search_phrase_suggestions.c_metadata.test, 'test');
         });
 
         it('should not return search with metadata if the request is not from the SCAPI', () => {
             const searchResponse = {
                 query: 'rhino',
-                hits: [{}, {}]
+                hits: [{}, {}],
+                search_phrase_suggestions: {}
             };
             searchResponse.hits.toArray = () => searchResponse.hits;
             getSearchMetaDataResult = { 'test': 'test' };
@@ -152,7 +151,7 @@ describe('modifyGETResponse', () => {
 
             product.modifyGETResponse(searchResponse);
 
-            assert.isUndefined(searchResponse.hits[0].c_metadata);
+            assert.isUndefined(searchResponse.search_phrase_suggestions.c_metadata);
         });
     });
 
@@ -174,7 +173,7 @@ describe('modifyGETResponse', () => {
                 total: 2,
                 refinements: [],
                 sortingOptions: [],
-                searchPhraseSuggestions: []
+                search_phrase_suggestions: []
             };
 
             searchResponse.hits.toArray = () => searchResponse.hits;

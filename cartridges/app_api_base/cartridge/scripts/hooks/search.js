@@ -27,14 +27,7 @@ exports.modifyGETResponse = function (searchResponse) {
 
                 var metaData = productSearchHelper.getSearchMetaData(searchResponse.query);
 
-                if (searchResponse.count > 0) {
-                    searchResponse.hits[0].c_metadata = metaData;
-                } else {
-                    searchResponse.hits = [{
-                        product_id: 'metadata',
-                        c_metadata: metaData
-                    }];
-                }
+                searchResponse.search_phrase_suggestions.c_metadata = metaData;
             }
 
             if (searchResponse.count > 0) {
