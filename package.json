@@ -43,7 +43,6 @@
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-sitegenesis": "1.0.0",
     "globalize": "1.7.0",
-    "husky": "8.0.1",
     "isml-linter": "5.40.3",
     "lodash": "4.17.21",
     "mocha": "10.1.0",
@@ -67,11 +66,5 @@
     "presets": [
       "env"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run test"
-    }
   }
 }
