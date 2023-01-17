@@ -19,19 +19,7 @@ exports.modifyGETResponse = function (searchResponse) {
                 var redirectResult = productSearchHelper.getSearchRedirectInformation(searchResponse.query);
 
                 if (redirectResult) {
-                    // We can only add custom attributes on a "Hit"
-                    var newHits = [{
-                        c_redirect: redirectResult
-                    }];
-
-                    searchResponse.hits = newHits;
-
-                    // Clean the response
-                    searchResponse.count = 1;
-                    searchResponse.total = 1;
-                    delete searchResponse.refinements;
-                    delete searchResponse.sortingOptions;
-                    delete searchResponse.searchPhraseSuggestions;
+                    searchResponse.search_phrase_suggestions.c_searchRedirect = redirectResult;
 
                     // No need to do any other customisations, end the hook (and others after it).
                     return new Status(Status.OK);

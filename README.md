@@ -20,15 +20,15 @@ Your feedback on the ease-of-use and limitations of this new architecture is inv
   * [Running integration tests](#running-integration-tests)
 - [Performance Monitoring](#performance-monitoring)
 - [Cache Information](#cache-information)
-- [SEO: Search Driven Redirects](#seo--search-driven-redirects)
-- [SEO: Page Meta Tag Rules](#seo--page-meta-tag-rules)
-- [SEO: Sitemap](#seo--sitemap)
+- [SEO: Search Driven Redirects](#seo-search-driven-redirects)
+- [SEO: Page Meta Tag Rules](#seo-page-meta-tag-rules)
+- [SEO: Sitemap](#seo-sitemap)
   * [Example](#example)
     + [Business Manager](#business-manager)
       - [URL Rules: Settings](#url-rules-settings)
       - [URL Rules: Catalog URLs](#url-rules-catalog-urls)
       - [Sitemap](#sitemap)
-      - [Alias & ECDN](#alias---ecdn)
+      - [Alias & ECDN](#alias--ecdn)
     + [Composable Storefront](#composable-storefront)
       - [app/routes.jsx](#approutesjsx)
       - [config/default.js](#configdefaultjs)
@@ -144,10 +144,19 @@ The value is composed of the following information:
 The Business Manager module to configure search driven redirects (`Merchant Tools > Search > Search Driven Redirects`) has been exposed to the following endpoint:
 * Product Search: `/search/shopper-search/v1/organizations/{{organization}}/product-search`
 
-## Hacky way in Search
-The custom hook will remove all product results from the response, replacing it with a single result with the attribute "c_redirect". The reasoning is that the SCAPI adheres closely to the rules of the endpoint, meaning that no custom attributes can be placed in the top level, and all custom fields need to start with `c_`. 
+## Search Phrase Suggestons
+The custom hook will enhance the functionality of the "suggestions" by incorporating redirect information.
 
-For now, it is also impossible to adjust headers or anything else that would make more sense.
+```json
+{
+    ...
+    "searchPhraseSuggestions": {
+        ...
+        "c_searchRedirect": "https://my-target-url.com"
+    },
+    ...
+}
+```
 
 # SEO: Page Meta Tag Rules
 The Business Manager module to manage all of the Meta Tags dynamically for a page have been exposed to the following endpoints:
