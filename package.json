@@ -10,7 +10,6 @@
     "test": "nyc mocha test/unit/**/*.js",
     "test:report": "nyc report --reporter=json",
     "test:integration": "sgmf-scripts --integration 'test/integration/**/*.js'",
-    "bdd:snippets": "./node_modules/.bin/codeceptjs bdd:snippets --path",
     "lint": "npm run lint:js",
     "lint:js": "sgmf-scripts --lint js",
     "init:isml": "./node_modules/.bin/isml-linter --init",
@@ -30,22 +29,14 @@
   "license": "ISC",
   "homepage": "https://github.com/taurgis/headless-reference-architecture",
   "devDependencies": {
-    "@tridnguyen/config": "^2.3.1",
-    "chai": "4.3.6",
+    "@tridnguyen/config": "2.3.1",
+    "chai": "4.3.7",
     "chai-subset": "1.6.0",
-    "codeceptjs": "3.3.6",
-    "codeceptjs-cucumber": "5.0.0",
-    "codeceptjs-saucehelper": "1.4.0",
-    "codeceptjs-saucelabs": "5.3.2",
-    "codeceptjs-shared": "6.0.2",
     "eslint": "8.25.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-sitegenesis": "1.0.0",
-    "globalize": "1.7.0",
-    "husky": "8.0.1",
     "isml-linter": "5.40.3",
-    "lodash": "4.17.21",
     "mocha": "10.1.0",
     "mocha-junit-reporter": "2.1.0",
     "nyc": "15.1.0",
@@ -54,9 +45,7 @@
     "request-promise": "4.2.6",
     "sgmf-scripts": "2.4.2",
     "shelljs": "0.8.5",
-    "should": "13.2.3",
-    "sinon": "14.0.1",
-    "webpack": "^4.46.0"
+    "sinon": "14.0.1"
   },
   "browserslist": [
     "last 2 versions",
@@ -67,11 +56,5 @@
     "presets": [
       "env"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run test"
-    }
   }
 }

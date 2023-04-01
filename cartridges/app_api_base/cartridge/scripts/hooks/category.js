@@ -10,7 +10,7 @@
  */
 exports.modifyGETResponse = function (dwCategory, category) {
     if (request.isSCAPI()) {
-        var productSearchHelper = require('../helpers/productSearchHelper');
+        var productSearchHelper = require('*/cartridge/scripts/helpers/productSearchHelper');
 
         category.c_metadata = productSearchHelper.getCategoryMetaData(dwCategory);
     }

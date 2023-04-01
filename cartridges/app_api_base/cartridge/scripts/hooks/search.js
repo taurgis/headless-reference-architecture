@@ -13,25 +13,13 @@ exports.modifyGETResponse = function (searchResponse) {
 
     if (request.isSCAPI()) {
         try {
-            var productSearchHelper = require('../helpers/productSearchHelper');
+            var productSearchHelper = require('*/cartridge/scripts/helpers/productSearchHelper');
 
             if (searchResponse.query) {
                 var redirectResult = productSearchHelper.getSearchRedirectInformation(searchResponse.query);
 
                 if (redirectResult) {
-                    // We can only add custom attributes on a "Hit"
-                    var newHits = [{
-                        c_redirect: redirectResult
-                    }];
-
-                    searchResponse.hits = newHits;
-
-                    // Clean the response
-                    searchResponse.count = 1;
-                    searchResponse.total = 1;
-                    delete searchResponse.refinements;
-                    delete searchResponse.sortingOptions;
-                    delete searchResponse.searchPhraseSuggestions;
+                    searchResponse.search_phrase_suggestions.c_searchRedirect = redirectResult;
 
                     // No need to do any other customisations, end the hook (and others after it).
                     return new Status(Status.OK);
@@ -39,19 +27,11 @@ exports.modifyGETResponse = function (searchResponse) {
 
                 var metaData = productSearchHelper.getSearchMetaData(searchResponse.query);
 
-                if (searchResponse.count > 0) {
-                    searchResponse.hits[0].c_metadata = metaData;
-                } else {
-                    searchResponse.hits = [{
-                        product_id: 'metadata',
-                        c_metadata: metaData
-                    }];
-                }
+                searchResponse.search_phrase_suggestions.c_metadata = metaData;
             }
 
             if (searchResponse.count > 0) {
                 var hits = searchResponse.hits.toArray();
-
                 hits.forEach(function (hit) {
                     if (hit.represented_product) {
                         hit.c_extend = productSearchHelper.createExtendedProduct(hit.represented_product.id);

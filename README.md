@@ -9,6 +9,31 @@ Headless Reference Architecture has a base cartridge (`app_api_base`) that is ne
 
 Your feedback on the ease-of-use and limitations of this new architecture is invaluable during the developer preview. Particularly, feedback on any issues you encounter or workarounds you develop for efficiently customizing the base cartridge without editing it directly.
 
+# Table of Contents
+- [Getting Started](#getting-started)
+- [NPM scripts](#npm-scripts)
+  * [Linting your code](#linting-your-code)
+  * [Watching for changes and uploading](#watching-for-changes-and-uploading)
+  * [Uploading](#uploading)
+- [Testing](#testing)
+  * [Running unit tests](#running-unit-tests)
+  * [Running integration tests](#running-integration-tests)
+- [Performance Monitoring](#performance-monitoring)
+- [Cache Information](#cache-information)
+- [SEO: Search Driven Redirects](#seo-search-driven-redirects)
+- [SEO: Page Meta Tag Rules](#seo-page-meta-tag-rules)
+- [SEO: Sitemap](#seo-sitemap)
+  * [Example](#example)
+    + [Business Manager](#business-manager)
+      - [URL Rules: Settings](#url-rules-settings)
+      - [URL Rules: Catalog URLs](#url-rules-catalog-urls)
+      - [Sitemap](#sitemap)
+      - [Alias & ECDN](#alias--ecdn)
+    + [Composable Storefront](#composable-storefront)
+      - [app/routes.jsx](#approutesjsx)
+      - [config/default.js](#configdefaultjs)
+      - [app/utils/url.js](#apputilsurljs)
+- [Contributing to HRA](./CONTRIBUTING.md)
 
 # The latest version
 
@@ -86,57 +111,84 @@ You can also supply URL of the sandbox on the command line:
 ```
 npm run test:integration -- --baseUrl devxx-sitegenesis-dw.demandware.net
 ```
+# Performance Monitoring
+The HRA adds a special header called `x-sf-cc-server-timing` to all responses that are not cached. This allows for tracking and troubleshooting of performance.
+
+Here's an example of what the value might look like:
+
+```
+x-sf-cc-server-timing: script;dur=1076, Route-Step-1;dur=1075, render;dur=1
+```
+
+The value is made up of different metrics:
+
+* **script**: the amount of time it takes for a route to be processed, not including the time it takes to render the JSON or basic print.
+* **Route-Step-X**: each part of the route will have its own metrics, including prepends, appends, and middleware.
+* **Render**: the total time it takes to render the request JSON or print.
+
+> When the response is marked as cached, the header "x-sf-cc-server-timing" will have a default value of 0. This is because if the values were to be cached, they would no longer be accurate and therefore would not serve the purpose of performance monitoring.
+
+# Cache Information
+An additional header called `x-sf-cc-webadapter-cache` is included with every response. It provides information about the cache status of that specific endpoint. Here is an example of what the value might look like:
+```
+x-sf-cc-webadapter-cache: true,personalized=false,expires=1673897609059
+```
+
+The value is composed of the following information:
+
+* whether caching is enabled (true or false)
+* if the response is personalized (true or false)
+* the expiration date/time of the cache, represented as a number.
 
 # SEO: Search Driven Redirects
 The Business Manager module to configure search driven redirects (`Merchant Tools > Search > Search Driven Redirects`) has been exposed to the following endpoint:
 * Product Search: `/search/shopper-search/v1/organizations/{{organization}}/product-search`
 
-## Hacky way in Search
-The custom hook will remove all product results from the response, replacing it with a single result with the attribute "c_redirect". The reasoning is that the SCAPI adheres closely to the rules of the endpoint, meaning that no custom attributes can be placed in the top level, and all custom fields need to start with `c_`. 
+## Search Phrase Suggestons
+The custom hook will enhance the functionality of the "suggestions" by incorporating redirect information.
 
-For now, it is also impossible to adjust headers or anything else that would make more sense.
+```json
+{
+    ...
+    "searchPhraseSuggestions": {
+        ...
+        "c_searchRedirect": "https://my-target-url.com"
+    },
+    ...
+}
+```
 
 # SEO: Page Meta Tag Rules
 The Business Manager module to manage all of the Meta Tags dynamically for a page have been exposed to the following endpoints:
 * Product Detail (`/product/shopper-products/v1/organizations/{{organization}}/products`)
 * Category (`/product/shopper-products/v1/organizations/{{organization}}/categories/{{category}}`)
 
-## Hacky way in Search
-Besides these, the search endpoint (`/search/shopper-search/v1/organizations/{{organization}}/product-search`) has also been extended with this information. Unfortunately, it is not possible to set a custom (c_) attribute at the top level, so it has been stored on the first "hit":
+## Search Phrase Suggestions
+Besides these, the search endpoint (`/search/shopper-search/v1/organizations/{{organization}}/product-search`) has also been extended with this information. Unfortunately, it is not possible to set a custom (c_) attribute at the top level, so it has been stored on the `Search Phrase Suggestions`:
 
-```
+```json
 {
-    "limit": 25,
-    "hits": [
-        {
-           ...
-            "c_metadata": [
-                {
-                    "ID": "robots",
-                    "content": "index,follow",
-                    "name": true,
-                    "property": false,
-                    "title": false
-                },
-                {
-                    "ID": "og:url",
-                    "content": "...",
-                    "name": false,
-                    "property": true,
-                    "title": false
-                },
-                {
-                    "ID": "title",
-                    "content": "Find amazing products in Storefront Catalog - Non-EN' today | RefArchGlobal",
-                    "name": false,
-                    "property": false,
-                    "title": true
-                }
-            ],
-            ...
-        },
+    ...
+    "searchPhraseSuggestions": {
         ...
-    ]
+        "c_metadata": [
+            {
+                "ID": "robots",
+                "content": "index,follow",
+                "name": true,
+                "property": false,
+                "title": false
+            },
+            {
+                "ID": "title",
+                "content": "Find amazing products in Storefront Catalog - Non-EN' today | RefArchGlobal",
+                "name": false,
+                "property": false,
+                "title": true
+            }
+        ]
+    },
+    ...
 }
 ```
 
@@ -169,6 +221,8 @@ ___
 
 The Sitemap generation can be done here:
 
+`Merchant Tools > SEO > Sitemaps`
+
 ___
 #### Alias & ECDN
 As all projects are unique in their set-up, the final step is to make sure the sitemap is generated using your own domain by configuring the aliases.
@@ -176,8 +230,6 @@ As all projects are unique in their set-up, the final step is to make sure the s
 ```Merchant Tools > SEO > Aliases```
 
 **Documentation**: [https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/search_engine_optimization/b2c_hostname_aliases.html](https://documentation.b2c.commercecloud.salesforce.com/DOC2/topic/com.demandware.dochelp/content/b2c_commerce/topics/search_engine_optimization/b2c_hostname_aliases.html)
-
-`Merchant Tools > SEO > Sitemaps`
 
 ### Composable Storefront
 #### app/routes.jsx
